@@ -102,7 +102,6 @@
   <!-- Desktop header (hidden on mobile) -->
   <header class="hidden md:flex items-center justify-between p-6 pr-72 bg-slate-800/50 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-50">
     <h1 class="text-2xl font-bold text-white" id="appTitle">NovelTools</h1>
-    <div class="text-sm text-slate-400">Desktop Version</div>
   </header>
 
   <!-- Bottom Navigation for Mobile - Horizontally Scrollable -->
@@ -125,8 +124,8 @@
         <div class="nav-label text-xs mt-1">Augment</div>
       </button>
       <button onclick="launchAppFromCard('zipEpub')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
-        <div class="nav-icon text-lg">📦↔📖</div>
-        <div class="nav-label text-xs mt-1">ZIP↔EPUB</div>
+        <div class="nav-icon text-lg">🔄</div>
+        <div class="nav-label text-xs mt-1">Converter</div>
       </button>
       <button onclick="launchAppFromCard('mergeBackup')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">🔄</div>
@@ -146,6 +145,7 @@
         <button onclick="launchAppFromCard('splitter')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
           EPUB Chapter Splitter
         </button>
+
         <button onclick="launchAppFromCard('zipEpub')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
           ZIP ↔ EPUB
         </button>
@@ -235,6 +235,8 @@
               Add chapters from a ZIP file to an existing novel backup.
             </p>
           </div>
+
+
 
           <div class="tool-card bg-none bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in md:col-span-2 lg:col-span-3"
                onclick="launchAppFromCard('findReplaceBackup')"
@@ -627,6 +629,8 @@
       <!-- Host container for the original tool sections -->
       <div id="zipEpubHost"></div>
     </div>
+
+
 
   </div>
 
