@@ -138,8 +138,9 @@ header {
 }
 
 .tool-section {
-  max-width: 600px; 
-  margin: 20px auto; 
+  /* width managed by Tailwind utilities; keep margin for legacy spacing */
+  margin: 20px auto;
+  max-width: none;
 }
 
 
@@ -225,9 +226,6 @@ textarea:focus-visible {
 }
 
 
-.upload-btn { background: linear-gradient(135deg, #7e57c2, #5e37b5); }
-.split-btn { background: linear-gradient(135deg, #26c6da, var(--accent-color)); } 
-.download-btn { background: linear-gradient(135deg, #ff7043, #e64a19); }
 
 .mode-section {
   text-align: center;
@@ -556,8 +554,6 @@ textarea#zipDescription {
 
 
 
-.btn-primary { background: linear-gradient(135deg, #26c6da, var(--accent-color)); }
-.btn-accent { background: linear-gradient(135deg, #7e57c2, #5e37b5); }
 
 .status-toast { /* Global toast notification */
   position: fixed;
@@ -1028,10 +1024,6 @@ textarea#zipDescription {
 @media (max-width: 768px) {
   .bottom-nav {
     display: flex;
-  }
-
-  .sidebar {
-    display: none;
   }
 }
 

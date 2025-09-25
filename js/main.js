@@ -8,7 +8,7 @@ import {
     showDashboard as uiShowDashboard,
     showToast,
     toggleSpinner as displaySpinnerElement,
-    toolSectionsMap,
+    toolSectionsMap as baseToolSectionsMap,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd
@@ -24,7 +24,16 @@ import { initializeMergeBackup } from './merge-backup.js';
 import { initializeAugmentBackupWithZip } from './augment-backup-with-zip.js';
 import { initializeFindReplaceBackup } from './find-replace-backup.js';
 
-// Use toolSectionsMap from ui-helpers (no override needed)
+// Extend toolSectionsMap from ui-helpers
+export const toolSectionsMap = {
+    'splitter': { elementId: 'splitterApp', title: 'EPUB Chapter Splitter' },
+    'zipToEpub': { elementId: 'zipToEpubApp', title: 'ZIP to EPUB Converter' },
+    'epubToZip': { elementId: 'epubToZipApp', title: 'EPUB to ZIP (TXT)' },
+    'createBackupFromZip': { elementId: 'createBackupFromZipApp', title: 'Create Backup from ZIP' },
+    'mergeBackup': { elementId: 'mergeBackupApp', title: 'Merge Backup Files' },
+    'augmentBackupWithZip': { elementId: 'augmentBackupWithZipApp', title: 'Augment Backup with ZIP' },
+    'findReplaceBackup': { elementId: 'findReplaceBackupApp', title: 'Find & Replace in Backup File' }
+};
 
 // Bottom navigation tool mapping for mobile
 export const bottomNavTools = {
@@ -437,6 +446,8 @@ async function initializeTool(toolId) {
                                  document.getElementById('spinner' + toolId.replace(/([A-Z])/g, '$1').charAt(0).toUpperCase() + toolId.slice(1));
 
             module[initFunction](showToast, (show) => displaySpinnerElement(spinnerElement, show));
+            // Re-apply Tailwind classes in case the tool created new inputs/buttons
+            applyTailwindClassesToTools();
             initializedTools.set(toolId, true);
             console.log(`Successfully initialized tool: ${toolId}`);
         } else {
@@ -558,6 +569,74 @@ const toolModules = {
 
 const initializedTools = new Map();
 
+function applyTailwindClassesToTools() {
+    const add = (selector, classes) => {
+        document.querySelectorAll(selector).forEach(el => {
+            classes.forEach(c => el.classList.add(c));
+        });
+    };
+
+    // Buttons
+    add('.btn.btn-primary', [
+        'inline-flex','items-center','justify-center','px-4','py-2','rounded-lg','font-medium',
+        'bg-primary-600','hover:bg-primary-700','text-white','shadow-lg','hover:shadow-xl',
+        'transition-all','duration-200','focus:outline-none','focus:ring-2','focus:ring-primary-500',
+        'focus:ring-offset-2','focus:ring-offset-slate-800','disabled:opacity-60','disabled:cursor-not-allowed'
+    ]);
+    add('.btn.split-btn', [
+        'inline-flex','items-center','justify-center','px-4','py-2','rounded-lg','font-medium',
+        'bg-primary-600','hover:bg-primary-700','text-white','shadow-lg','hover:shadow-xl',
+        'transition-all','duration-200','focus:outline-none','focus:ring-2','focus:ring-primary-500',
+        'focus:ring-offset-2','focus:ring-offset-slate-800','disabled:opacity-60','disabled:cursor-not-allowed'
+    ]);
+    add('.btn.download-btn', [
+        'inline-flex','items-center','justify-center','px-4','py-2','rounded-lg','font-medium',
+        'bg-orange-600','hover:bg-orange-700','text-white','shadow-lg','hover:shadow-xl',
+        'transition-all','duration-200','focus:outline-none','focus:ring-2','focus:ring-orange-500',
+        'focus:ring-offset-2','focus:ring-offset-slate-800'
+    ]);
+    add('.btn.upload-btn', [
+        'inline-flex','items-center','justify-center','px-4','py-2','rounded-lg','font-medium',
+        'bg-violet-600','hover:bg-violet-700','text-white','shadow-lg','hover:shadow-xl',
+        'transition-all','duration-200','focus:outline-none','focus:ring-2','focus:ring-violet-500',
+        'focus:ring-offset-2','focus:ring-offset-slate-800'
+    ]);
+    add('.btn.btn-accent', [
+        'bg-teal-600','hover:bg-teal-700','text-white','shadow-lg','hover:shadow-xl'
+    ]);
+    add('.btn.btn-small', ['px-3','py-1','text-sm']);
+
+    // Tool sections
+    add('.card.tool-section', [
+        'max-w-4xl','mx-auto','p-6','bg-slate-800/50','backdrop-blur-sm','border','border-slate-700','rounded-xl','animate-fade-in'
+    ]);
+    document.querySelectorAll('.tool-section h1').forEach(h => h.classList.add('text-2xl','font-bold','text-white','mb-6'));
+
+    // Form elements
+    document.querySelectorAll('.option-group input, .option-group select, .option-group textarea').forEach(el => {
+        el.classList.add(
+            'bg-slate-700','border','border-slate-600','rounded-lg','px-3','py-2','text-white',
+            'focus:border-primary-500','focus:ring-2','focus:ring-primary-500','focus:ring-opacity-50',
+            'transition-all','duration-200','w-full'
+        );
+    });
+    document.querySelectorAll('.option-group label:not(.checkbox-label-wrapper)').forEach(el => {
+        el.classList.add('block','text-sm','font-medium','text-slate-300','mb-2');
+    });
+
+    // File display area
+    add('.filename-display-area', ['bg-slate-700','border','border-slate-600','rounded-lg','p-3','text-sm','text-slate-400','mt-2']);
+    add('.clear-file-btn', ['text-slate-400','hover:text-white','transition-colors']);
+
+    // Toast
+    const toast = document.getElementById('toast');
+    if (toast) {
+        toast.classList.add(
+            'fixed','bottom-20','left-1/2','-translate-x-1/2','px-4','py-2','rounded-lg','text-white','font-medium','z-50','transition-all','duration-300'
+        );
+    }
+}
+
 export function initializeApp() {
     registerServiceWorker();
 
@@ -576,9 +655,9 @@ export function initializeApp() {
     // Add intersection observer for lazy loading
     setupLazyLoading();
 
-    document.addEventListener('touchstart', handleTouchStart, { passive: true });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleTouchEnd);
+
+    // Apply Tailwind utility classes to tools UI (no build, dynamic)
+    applyTailwindClassesToTools();
 
     function routeApp(fromPopStateUpdate) {
         const hash = window.location.hash;
