@@ -462,7 +462,6 @@ async function initializeTool(toolId) {
 function getToolInitializer(toolId) {
     const initializers = {
         'splitter': 'initializeEpubSplitter',
-        'novelSplitter': 'initializeNovelSplitter',
         'zipToEpub': 'initializeZipToEpub',
         'epubToZip': 'initializeEpubToZip',
         'zipEpub': 'initializeZipEpubCombined',
@@ -686,44 +685,7 @@ async function initializeZipEpubCombined() {
     console.log('Combined ZIP ↔ EPUB tool initialized successfully');
 }
 
-// Initialize the Novel Splitter (Advanced) tool
-async function initializeNovelSplitter() {
-    console.log('Initializing Novel Splitter (Advanced) tool');
 
-    // Get the iframe element
-    const iframe = document.getElementById('novelSplitterFrame');
-    if (!iframe) {
-        console.error('Novel Splitter iframe not found');
-        return;
-    }
-
-    // Set the iframe source to load the Novel-Splitter app
-    iframe.src = 'To be added/Novel-Splitter/index.html';
-
-    // Add load event listener to handle iframe loading
-    iframe.addEventListener('load', () => {
-        console.log('Novel Splitter iframe loaded successfully');
-
-        // Optional: Add postMessage listener for communication with iframe if needed
-        window.addEventListener('message', (event) => {
-            // Handle messages from the iframe if needed
-            if (event.origin !== window.location.origin) return;
-
-            console.log('Message from Novel Splitter iframe:', event.data);
-        });
-
-        // Re-apply Tailwind classes to ensure styling is correct
-        applyTailwindClassesToTools();
-    });
-
-    // Handle iframe errors
-    iframe.addEventListener('error', (error) => {
-        console.error('Failed to load Novel Splitter iframe:', error);
-        showToast('Failed to load Novel Splitter', true);
-    });
-
-    console.log('Novel Splitter (Advanced) tool initialized successfully');
-}
 
 function applyTailwindClassesToTools() {
     const add = (selector, classes) => {

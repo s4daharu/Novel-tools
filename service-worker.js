@@ -40,11 +40,6 @@ self.addEventListener('install', event => {
       caches.open(STATIC_CACHE).then(cache => {
         console.log('[SW] Caching critical icons');
         return cache.addAll(CRITICAL_ICONS);
-      }),
-      // Cache Novel Splitter assets (for offline support)
-      caches.open(STATIC_CACHE).then(cache => {
-        console.log('[SW] Caching Novel Splitter assets');
-        return cache.addAll(NOVEL_SPLITTER_ASSETS);
       })
     ]).then(() => {
       console.log('[SW] Installation complete, skipping wait');
