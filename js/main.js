@@ -53,6 +53,10 @@ window.showDashboard = () => {
     uiShowDashboard(false, toolSectionsMap);
 };
 
+// Make PWA functions globally accessible
+window.installPWA = installPWA;
+window.dismissInstallBanner = dismissInstallBanner;
+
 function registerServiceWorker() {
     if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
         const swUrl = new URL('service-worker.js', window.location.href).href;
@@ -96,20 +100,36 @@ function initPWAPrompts(registration) {
         installPromptShown = true;
 
         // Check if device supports PWA installation
-        if ('BeforeInstallPromptEvent' in window) {
+        if ('BeforeInstallPromptEvent' in window && deferredInstallPrompt) {
             showInstallBanner();
+        } else {
+            // Fallback: show install banner after a delay
+            setTimeout(() => {
+                if (!installPromptShown) {
+                    showInstallBanner();
+                }
+            }, 5000);
         }
     };
 
-    // Show install prompt after 3 seconds of usage
-    setTimeout(showInstallPrompt, 3000);
+    // Show install prompt after 5 seconds of usage
+    setTimeout(showInstallPrompt, 5000);
 
     // Show install prompt when user interacts with key features
     document.addEventListener('click', (e) => {
         if (e.target.closest('.tool-card') && !installPromptShown) {
-            setTimeout(showInstallPrompt, 1000);
+            setTimeout(showInstallPrompt, 2000);
         }
     }, { once: true });
+
+    // Show install prompt when user scrolls or interacts more
+    let scrollCount = 0;
+    document.addEventListener('scroll', () => {
+        scrollCount++;
+        if (scrollCount > 3 && !installPromptShown) {
+            setTimeout(showInstallPrompt, 1000);
+        }
+    }, { passive: true });
 }
 
 // Show install banner

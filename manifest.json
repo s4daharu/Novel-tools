@@ -11,53 +11,25 @@
   "lang": "en",
   "dir": "ltr",
   "categories": ["productivity", "utilities", "books"],
-  "screenshots": [
-    {
-      "src": "icons/screenshot-mobile.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ],
+
   "shortcuts": [
     {
       "name": "EPUB Splitter",
       "short_name": "Split EPUB",
       "description": "Split EPUB chapters quickly",
-      "url": "./index.html#tool-splitter",
-      "icons": [
-        {
-          "src": "icons/shortcut-splitter.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
+      "url": "./index.html#tool-splitter"
     },
     {
       "name": "Create Backup",
       "short_name": "Create Backup",
       "description": "Create novel backup from ZIP",
-      "url": "./index.html#tool-createBackupFromZip",
-      "icons": [
-        {
-          "src": "icons/shortcut-backup.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
+      "url": "./index.html#tool-createBackupFromZip"
     },
     {
       "name": "Augment Backup",
       "short_name": "Augment Backup",
       "description": "Add chapters to existing backup",
-      "url": "./index.html#tool-augmentBackupWithZip",
-      "icons": [
-        {
-          "src": "icons/shortcut-augment.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
+      "url": "./index.html#tool-augmentBackupWithZip"
     }
   ],
   "icons": [
