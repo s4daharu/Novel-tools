@@ -241,7 +241,7 @@ function displayTool(appId, currentToolSectionsMap) {
 
     if (dashboardAppEl) dashboardAppEl.style.display = 'none';
 
-    let currentTitle = 'Novelist Tools';
+    let currentTitle = 'NovelTools';
     let toolDisplayed = false;
 
     for (const id in currentToolSectionsMap) {
@@ -277,7 +277,7 @@ export function showDashboard(fromPopStateUpdate = false, currentToolSectionsMap
         if (appElement) appElement.style.display = 'none';
     }
 
-    if (appTitleEl) appTitleEl.textContent = 'Novelist Tools';
+    if (appTitleEl) appTitleEl.textContent = 'NovelTools';
 
     if (sidebarEl && sidebarEl.classList.contains('translate-x-0')) {
         toggleMenu();
@@ -289,7 +289,7 @@ export function showDashboard(fromPopStateUpdate = false, currentToolSectionsMap
     const targetHash = '#dashboard';
     if (!fromPopStateUpdate && window.location.hash !== targetHash) {
         const historyUrl = window.location.protocol === 'blob:' ? null : targetHash;
-        history.pushState({ view: 'dashboard' }, 'Novelist Tools Dashboard', historyUrl);
+        history.pushState({ view: 'dashboard' }, 'NovelTools Dashboard', historyUrl);
         console.log("UI: Pushed history state for Dashboard. URL used:", historyUrl === null ? "null (blob)" : historyUrl);
     } else if (fromPopStateUpdate) {
          console.log("UI: Show Dashboard from popstate, hash is:", window.location.hash);
@@ -307,7 +307,7 @@ export function launchAppFromCard(appId, fromPopStateUpdate = false, currentTool
              const targetDashboardHash = '#dashboard';
              const historyUrl = window.location.protocol === 'blob:' ? null : targetDashboardHash;
              if (window.location.hash !== targetDashboardHash && historyUrl !== null) {
-                history.replaceState({ view: 'dashboard' }, 'Novelist Tools Dashboard', historyUrl);
+                history.replaceState({ view: 'dashboard' }, 'NovelTools Dashboard', historyUrl);
              }
         }
         return;

@@ -1,5 +1,5 @@
 {
-  "name": "Novelist Tools - Mobile PWA",
+  "name": "NovelTools",
   "short_name": "NovelistTools",
   "description": "A mobile-first suite of tools for novelists, including EPUB utilities and backup management with offline support.",
   "start_url": "./index.html",

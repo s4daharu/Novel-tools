@@ -143,7 +143,7 @@ function showInstallBanner() {
         <div class="install-banner-content">
             <div class="install-banner-icon">📱</div>
             <div class="install-banner-text">
-                <h3>Install Novelist Tools</h3>
+                <h3>Install NovelTools</h3>
                 <p>Get the full app experience with offline support and quick access!</p>
             </div>
             <div class="install-banner-actions">
@@ -271,7 +271,7 @@ async function installPWA() {
 
             if (outcome === 'accepted') {
                 console.log('User accepted PWA installation');
-                showToast('Installing Novelist Tools...', false);
+                showToast('Installing NovelTools...', false);
             } else {
                 console.log('User declined PWA installation');
             }
@@ -608,11 +608,12 @@ function applyTailwindClassesToTools() {
 
     // Tool sections
     add('.card.tool-section', [
-        'max-w-4xl','mx-auto','p-6','bg-slate-800/50','backdrop-blur-sm','border','border-slate-700','rounded-xl','animate-fade-in'
+        'max-w-3xl','md:max-w-4xl','mx-auto','p-4','md:p-6','bg-slate-800/50','backdrop-blur-sm','border','border-slate-700','rounded-xl','shadow-sm','space-y-5','animate-fade-in'
     ]);
-    document.querySelectorAll('.tool-section h1').forEach(h => h.classList.add('text-2xl','font-bold','text-white','mb-6'));
+    document.querySelectorAll('.tool-section h1').forEach(h => h.classList.add('text-2xl','md:text-3xl','font-bold','text-white','mb-5','text-center'));
 
     // Form elements
+    add('.option-group, .options-section, .mode-section', ['max-w-md','mx-auto']);
     document.querySelectorAll('.option-group input, .option-group select, .option-group textarea').forEach(el => {
         el.classList.add(
             'bg-slate-700','border','border-slate-600','rounded-lg','px-3','py-2','text-white',
@@ -630,7 +631,7 @@ function applyTailwindClassesToTools() {
 
     // Spinners
     add('.spinner, .spinner-backup', [
-        'inline-block','w-8','h-8','rounded-full','border-4','border-slate-600','border-t-primary-500','animate-spin'
+        'w-8','h-8','rounded-full','border-4','border-slate-600','border-t-primary-500','animate-spin','my-4','mx-auto'
     ]);
 
     // Status messages
@@ -642,6 +643,15 @@ function applyTailwindClassesToTools() {
 
     // Tool info text
     add('.tool-info-text', ['text-slate-400','text-sm','text-center','mt-2']);
+
+    // Lists and accordions
+    add('.chapter-selection-list, .chapter-list-draggable, .advanced-options-accordion', ['max-w-xl','mx-auto']);
+
+    // Upload/download/status areas
+    add('.upload-section, .download-section', ['text-center','mx-auto']);
+
+    // Find & Replace button grid
+    add('.fr-action-buttons-grid', ['gap-3','md:gap-4','justify-items-stretch']);
 
     // Toast
     const toast = document.getElementById('toast');
@@ -688,7 +698,7 @@ export function initializeApp() {
                     const targetDashboardHash = '#dashboard';
                     const historyUrl = window.location.protocol === 'blob:' ? null : targetDashboardHash;
                      if (window.location.hash !== targetDashboardHash && historyUrl !== null) {
-                        history.replaceState({ view: 'dashboard' }, 'Novelist Tools Dashboard', historyUrl);
+                        history.replaceState({ view: 'dashboard' }, 'NovelTools Dashboard', historyUrl);
                      }
                 }
             }
@@ -698,7 +708,7 @@ export function initializeApp() {
                 const targetDashboardHash = '#dashboard';
                 const historyUrl = window.location.protocol === 'blob:' ? null : targetDashboardHash;
                 if (historyUrl !== null) {
-                    history.pushState({ view: 'dashboard' }, 'Novelist Tools Dashboard', historyUrl);
+                    history.pushState({ view: 'dashboard' }, 'NovelTools Dashboard', historyUrl);
                 }
             }
         } else {
@@ -708,7 +718,7 @@ export function initializeApp() {
                 const targetDashboardHash = '#dashboard';
                 const historyUrl = window.location.protocol === 'blob:' ? null : targetDashboardHash;
                 if (window.location.hash !== targetDashboardHash && historyUrl !== null) {
-                   history.replaceState({ view: 'dashboard' }, 'Novelist Tools Dashboard', historyUrl);
+                   history.replaceState({ view: 'dashboard' }, 'NovelTools Dashboard', historyUrl);
                 }
             }
         }
