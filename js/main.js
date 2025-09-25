@@ -653,6 +653,10 @@ function applyTailwindClassesToTools() {
     // Find & Replace button grid
     add('.fr-action-buttons-grid', ['gap-3','md:gap-4','justify-items-stretch']);
 
+    // Checkbox styling
+    add('.checkbox-label-wrapper', ['flex','items-center','gap-2','justify-start','text-slate-200','select-none','cursor-pointer']);
+    add('.checkbox-label-wrapper input[type="checkbox"]', ['w-4','h-4','align-middle','rounded','border-slate-500','focus:ring-2','focus:ring-primary-500','focus:ring-offset-2','focus:ring-offset-slate-800']);
+
     // Toast
     const toast = document.getElementById('toast');
     if (toast) {
