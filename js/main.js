@@ -356,27 +356,214 @@ style.textContent = `
             opacity: 0;
         }
     }
+
+    /* Performance optimizations */
+    .tool-section {
+        will-change: transform, opacity;
+    }
+
+    .tool-card {
+        will-change: transform;
+    }
+
+    .bottom-nav .nav-item {
+        will-change: transform;
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 `;
 document.head.appendChild(style);
+
+// Preload critical tools for mobile-first experience
+function preloadCriticalTools() {
+    // Preload the most commonly used tools
+    const criticalTools = ['splitter', 'createBackupFromZip', 'augmentBackupWithZip'];
+
+    criticalTools.forEach(toolId => {
+        if (toolModules[toolId]) {
+            toolModules[toolId]().then(module => {
+                console.log(`Preloaded tool: ${toolId}`);
+            }).catch(error => {
+                console.warn(`Failed to preload tool: ${toolId}`, error);
+            });
+        }
+    });
+}
+
+// Initialize a specific tool with lazy loading
+async function initializeTool(toolId) {
+    if (initializedTools.has(toolId)) {
+        console.log(`Tool ${toolId} already initialized`);
+        return;
+    }
+
+    if (!toolModules[toolId]) {
+        console.warn(`No module found for tool: ${toolId}`);
+        return;
+    }
+
+    try {
+        console.log(`Initializing tool: ${toolId}`);
+        const module = await toolModules[toolId]();
+        const toolInfo = toolSectionsMap[toolId];
+
+        if (!toolInfo) {
+            console.warn(`No tool info found for: ${toolId}`);
+            return;
+        }
+
+        // Initialize the tool with its specific function
+        const initFunction = getToolInitializer(toolId);
+        if (initFunction && module[initFunction]) {
+            const spinnerElement = document.getElementById(`spinner${toolId.charAt(0).toUpperCase() + toolId.slice(1)}`) ||
+                                 document.getElementById('spinner' + toolId.replace(/([A-Z])/g, '$1').charAt(0).toUpperCase() + toolId.slice(1));
+
+            module[initFunction](showToast, (show) => displaySpinnerElement(spinnerElement, show));
+            initializedTools.set(toolId, true);
+            console.log(`Successfully initialized tool: ${toolId}`);
+        } else {
+            console.warn(`No initializer found for tool: ${toolId}`);
+        }
+    } catch (error) {
+        console.error(`Failed to initialize tool: ${toolId}`, error);
+        showToast(`Failed to load ${toolSectionsMap[toolId]?.title || toolId}`, true);
+    }
+}
+
+// Get the appropriate initializer function name for each tool
+function getToolInitializer(toolId) {
+    const initializers = {
+        'splitter': 'initializeEpubSplitter',
+        'zipToEpub': 'initializeZipToEpub',
+        'epubToZip': 'initializeEpubToZip',
+        'createBackupFromZip': 'initializeCreateBackupFromZip',
+        'mergeBackup': 'initializeMergeBackup',
+        'augmentBackupWithZip': 'initializeAugmentBackupWithZip',
+        'findReplaceBackup': 'initializeFindReplaceBackup'
+    };
+
+    return initializers[toolId];
+}
+
+// Setup intersection observer for lazy loading
+function setupLazyLoading() {
+    // Lazy load tools when they come into view
+    const toolSections = document.querySelectorAll('.tool-section:not(#dashboardApp)');
+
+    if ('IntersectionObserver' in window) {
+        const toolObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const toolElement = entry.target;
+                    const toolId = Object.keys(toolSectionsMap).find(id =>
+                        toolSectionsMap[id].elementId === toolElement.id
+                    );
+
+                    if (toolId && !initializedTools.has(toolId)) {
+                        initializeTool(toolId);
+                        toolObserver.unobserve(toolElement);
+                    }
+                }
+            });
+        }, {
+            rootMargin: '50px',
+            threshold: 0.1
+        });
+
+        toolSections.forEach(section => {
+            toolObserver.observe(section);
+        });
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        console.log('IntersectionObserver not supported, initializing all tools');
+        Object.keys(toolSectionsMap).forEach(toolId => {
+            if (!initializedTools.has(toolId)) {
+                initializeTool(toolId);
+            }
+        });
+    }
+}
+
+// Performance monitoring
+function initializePerformanceMonitoring() {
+    // Monitor Core Web Vitals
+    if ('PerformanceObserver' in window) {
+        // Largest Contentful Paint
+        const lcpObserver = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            const lastEntry = entries[entries.length - 1];
+            console.log('LCP:', lastEntry.startTime);
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+
+        // First Input Delay
+        const fidObserver = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+                console.log('FID:', entry.processingStart - entry.startTime);
+            });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
+
+        // Cumulative Layout Shift
+        const clsObserver = new PerformanceObserver((list) => {
+            let clsValue = 0;
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+                if (!entry.hadRecentInput) {
+                    clsValue += entry.value;
+                }
+            });
+            console.log('CLS:', clsValue);
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+    }
+}
+
+// Initialize performance monitoring
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializePerformanceMonitoring);
+} else {
+    initializePerformanceMonitoring();
+}
+
+// Lazy loading for better performance
+const toolModules = {
+    'splitter': () => import('./epub-splitter.js'),
+    'zipToEpub': () => import('./zip-to-epub.js'),
+    'epubToZip': () => import('./epub-to-zip.js'),
+    'createBackupFromZip': () => import('./create-backup-from-zip.js'),
+    'mergeBackup': () => import('./merge-backup.js'),
+    'augmentBackupWithZip': () => import('./augment-backup-with-zip.js'),
+    'findReplaceBackup': () => import('./find-replace-backup.js')
+};
+
+const initializedTools = new Map();
 
 export function initializeApp() {
     registerServiceWorker();
 
-    const spinnerSplEl = document.getElementById('spinnerSplitter');
-    const spinnerZipToEpubEl = document.getElementById('spinnerZipToEpub');
-    const spinnerEpubToZipEl = document.getElementById('spinnerEpubToZip');
-    const spinnerCreateBackupFromZipEl = document.getElementById('spinnerCreateBackupFromZip');
-    const spinnerMergeBackupEl = document.getElementById('spinnerMergeBackup');
-    const spinnerAugmentBackupEl = document.getElementById('spinnerAugmentBackup');
-    const spinnerFindReplaceBackupEl = document.getElementById('spinnerFindReplaceBackup');
+    // Preload critical tools for mobile-first experience
+    preloadCriticalTools();
 
-    initializeEpubSplitter(showToast, (show) => displaySpinnerElement(spinnerSplEl, show));
-    initializeZipToEpub(showToast, (show) => displaySpinnerElement(spinnerZipToEpubEl, show));
-    initializeEpubToZip(showToast, (show) => displaySpinnerElement(spinnerEpubToZipEl, show));
-    initializeCreateBackupFromZip(showToast, (show) => displaySpinnerElement(spinnerCreateBackupFromZipEl, show));
-    initializeMergeBackup(showToast, (show) => displaySpinnerElement(spinnerMergeBackupEl, show));
-    initializeAugmentBackupWithZip(showToast, (show) => displaySpinnerElement(spinnerAugmentBackupEl, show));
-    initializeFindReplaceBackup(showToast, (show) => displaySpinnerElement(spinnerFindReplaceBackupEl, show));
+    // Initialize only the tools that are immediately visible
+    const hash = window.location.hash;
+    if (hash.startsWith('#tool-')) {
+        const toolId = hash.substring('#tool-'.length);
+        if (toolSectionsMap[toolId]) {
+            initializeTool(toolId);
+        }
+    }
+
+    // Add intersection observer for lazy loading
+    setupLazyLoading();
 
     document.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
