@@ -17,8 +17,192 @@
   <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
 
-  <!-- Mobile-first CSS -->
-  <link rel="stylesheet" href="index.css">
+  <!-- Tailwind CSS CDN - Mobile First -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              300: '#5eead4',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+              950: '#042f2e',
+            },
+            dark: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'slide-in': 'slideIn 0.3s ease-out',
+            'bounce-in': 'bounceIn 0.3s ease-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideIn: {
+              '0%': { transform: 'translateY(10px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            bounceIn: {
+              '0%': { transform: 'scale(0.3)', opacity: '0' },
+              '50%': { transform: 'scale(1.05)', opacity: '0.8' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS for scrollbar hiding and mobile optimizations -->
+  <style>
+    /* Hide scrollbars but keep functionality */
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Custom button styles for Tailwind */
+    .btn {
+      @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800;
+    }
+
+    .btn-primary {
+      @apply bg-primary-600 hover:bg-primary-700 text-white shadow-lg hover:shadow-xl;
+    }
+
+    .btn-accent {
+      @apply bg-teal-600 hover:bg-teal-700 text-white shadow-lg hover:shadow-xl;
+    }
+
+    .btn-small {
+      @apply px-3 py-1 text-sm;
+    }
+
+    /* Tool card hover effects */
+    .tool-card:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    /* Mobile-specific optimizations */
+    @media (max-width: 768px) {
+      .tool-card {
+        @apply p-4;
+      }
+
+      .tool-card h2 {
+        @apply text-lg;
+      }
+
+      .tool-card p {
+        @apply text-sm;
+      }
+    }
+
+    /* Active navigation state */
+    .nav-item.active {
+      @apply bg-primary-600 text-white shadow-lg;
+    }
+
+    .nav-item.active .nav-icon {
+      transform: scale(1.1);
+    }
+
+    /* Loading spinner */
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #14b8a6;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Toast notifications */
+    .status-toast {
+      @apply fixed bottom-20 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white font-medium z-50 transition-all duration-300;
+    }
+
+    .toast-success {
+      @apply bg-green-600;
+    }
+
+    .toast-error {
+      @apply bg-red-600;
+    }
+
+    /* Form elements */
+    .option-group input,
+    .option-group select,
+    .option-group textarea {
+      @apply bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200;
+    }
+
+    .option-group label {
+      @apply block text-sm font-medium text-slate-300 mb-2;
+    }
+
+    /* File upload styling */
+    .filename-display-area {
+      @apply bg-slate-700 border border-slate-600 rounded-lg p-3 text-sm text-slate-400 mt-2;
+    }
+
+    .clear-file-btn {
+      @apply text-slate-400 hover:text-white transition-colors;
+    }
+
+    /* Tool sections */
+    .tool-section {
+      @apply max-w-4xl mx-auto p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl;
+    }
+
+    .tool-section h1 {
+      @apply text-2xl font-bold text-white mb-6;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .tool-section {
+        @apply p-4 mx-2;
+      }
+
+      .tool-section h1 {
+        @apply text-xl;
+      }
+    }
+  </style>
 
 <script type="importmap">
 {
@@ -29,87 +213,181 @@
 </script>
 </head>
 
-<body>
-  <header>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <div class="title" id="appTitle">Novelist Tools</div>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 min-h-screen">
+  <!-- Mobile-first header with hamburger menu -->
+  <header class="flex items-center justify-between p-4 bg-slate-800/50 backdrop-blur-sm border-b border-slate-700 md:hidden sticky top-0 z-50">
+    <h1 class="text-xl font-bold text-white" id="appTitle">Novelist Tools</h1>
+    <button onclick="toggleMenu()" class="text-2xl text-slate-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-700">
+      ☰
+    </button>
   </header>
 
-  <!-- Bottom Navigation for Mobile -->
-  <nav class="bottom-nav" id="bottomNav">
-    <div class="nav-item active" onclick="showDashboard()" data-tooltip="Dashboard">
-      <div class="nav-icon">🏠</div>
-      <div class="nav-label">Home</div>
-    </div>
-    <div class="nav-item" onclick="launchAppFromCard('splitter')" data-tooltip="EPUB Splitter">
-      <div class="nav-icon">✂️</div>
-      <div class="nav-label">Split</div>
-    </div>
-    <div class="nav-item" onclick="launchAppFromCard('createBackupFromZip')" data-tooltip="Create Backup">
-      <div class="nav-icon">📦</div>
-      <div class="nav-label">Create</div>
-    </div>
-    <div class="nav-item" onclick="launchAppFromCard('augmentBackupWithZip')" data-tooltip="Augment Backup">
-      <div class="nav-icon">🔧</div>
-      <div class="nav-label">Augment</div>
+  <!-- Desktop header (hidden on mobile) -->
+  <header class="hidden md:flex items-center justify-between p-6 bg-slate-800/50 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-50">
+    <h1 class="text-2xl font-bold text-white" id="appTitle">Novelist Tools</h1>
+    <div class="text-sm text-slate-400">Desktop Version</div>
+  </header>
+
+  <!-- Bottom Navigation for Mobile - Horizontally Scrollable -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-slate-800/95 backdrop-blur-sm border-t border-slate-700 z-50 md:hidden">
+    <div class="flex overflow-x-auto scrollbar-hide px-2 py-2 gap-1">
+      <button onclick="showDashboard()" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">🏠</div>
+        <div class="nav-label text-xs mt-1">Home</div>
+      </button>
+      <button onclick="launchAppFromCard('splitter')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">✂️</div>
+        <div class="nav-label text-xs mt-1">Split</div>
+      </button>
+      <button onclick="launchAppFromCard('createBackupFromZip')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">📦</div>
+        <div class="nav-label text-xs mt-1">Create</div>
+      </button>
+      <button onclick="launchAppFromCard('augmentBackupWithZip')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">🔧</div>
+        <div class="nav-label text-xs mt-1">Augment</div>
+      </button>
+      <button onclick="launchAppFromCard('zipToEpub')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">📖</div>
+        <div class="nav-label text-xs mt-1">EPUB</div>
+      </button>
+      <button onclick="launchAppFromCard('mergeBackup')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">🔄</div>
+        <div class="nav-label text-xs mt-1">Merge</div>
+      </button>
     </div>
   </nav>
 
   <!-- Desktop Sidebar (hidden on mobile) -->
-  <div class="sidebar" id="sidebar">
-    <h2>Tools</h2>
-    <button onclick="showDashboard()">Home Dashboard</button>
-    <button onclick="launchAppFromCard('splitter')">EPUB Chapter Splitter</button>
-    <button onclick="launchAppFromCard('zipToEpub')">ZIP to EPUB Converter</button>
-    <button onclick="launchAppFromCard('epubToZip')">EPUB to ZIP (TXT)</button>
-    <button onclick="launchAppFromCard('createBackupFromZip')">Create Backup from ZIP</button>
-    <button onclick="launchAppFromCard('mergeBackup')">Merge Backups</button>
-    <button onclick="launchAppFromCard('augmentBackupWithZip')">Augment Backup with ZIP</button>
-    <button onclick="launchAppFromCard('findReplaceBackup')">Find & Replace Backup</button>
+  <div class="fixed top-0 right-0 w-64 h-full bg-slate-800 border-l border-slate-700 transform translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 z-40" id="sidebar">
+    <div class="p-6 pt-20">
+      <h2 class="text-xl font-bold text-white mb-6">Tools</h2>
+      <nav class="space-y-2">
+        <button onclick="showDashboard()" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          Home Dashboard
+        </button>
+        <button onclick="launchAppFromCard('splitter')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          EPUB Chapter Splitter
+        </button>
+        <button onclick="launchAppFromCard('zipToEpub')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          ZIP to EPUB Converter
+        </button>
+        <button onclick="launchAppFromCard('epubToZip')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          EPUB to ZIP (TXT)
+        </button>
+        <button onclick="launchAppFromCard('createBackupFromZip')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          Create Backup from ZIP
+        </button>
+        <button onclick="launchAppFromCard('mergeBackup')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          Merge Backups
+        </button>
+        <button onclick="launchAppFromCard('augmentBackupWithZip')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          Augment Backup with ZIP
+        </button>
+        <button onclick="launchAppFromCard('findReplaceBackup')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          Find & Replace Backup
+        </button>
+      </nav>
+    </div>
   </div>
 
-  <div class="container">
+  <!-- Main Content Container -->
+  <main class="flex-1 pb-20 md:pb-0">
     <!-- Dashboard Section -->
-    <div id="dashboardApp" class="dashboard-container">
-      <h1>Novelist Tools</h1>
-      <div class="tool-cards-grid">
-        <div class="tool-card" onclick="launchAppFromCard('splitter')" role="button" tabindex="0" aria-label="Launch EPUB Chapter Splitter">
-          <div class="tool-card-icon">✂️</div>
-          <h2>EPUB Chapter Splitter</h2>
-          <p>Divide EPUB files into individual or grouped chapter text files.</p>
-        </div>
-        <div class="tool-card" onclick="launchAppFromCard('zipToEpub')" role="button" tabindex="0" aria-label="Launch ZIP to EPUB Converter">
-          <div class="tool-card-icon">📦📖</div>
-          <h2>ZIP to EPUB Converter</h2>
-          <p>Convert a ZIP of text files into a structured EPUB file.</p>
-        </div>
-        <div class="tool-card" onclick="launchAppFromCard('epubToZip')" role="button" tabindex="0" aria-label="Launch EPUB to ZIP (TXT) Converter">
-          <div class="tool-card-icon">📖📄</div>
-          <h2>EPUB to ZIP (TXT)</h2>
-          <p>Extract chapters from an EPUB into a ZIP of text files.</p>
-        </div>
-        <div class="tool-card" onclick="launchAppFromCard('createBackupFromZip')" role="button" tabindex="0" aria-label="Launch Create Backup from ZIP tool">
-          <div class="tool-card-icon">🗂️💾</div>
-          <h2>Create Backup from ZIP</h2>
-          <p>Generate a novel backup file directly from a ZIP of text chapters.</p>
-        </div>
-        <div class="tool-card" onclick="launchAppFromCard('mergeBackup')" role="button" tabindex="0" aria-label="Launch Merge Backup Files tool">
-          <div class="tool-card-icon">💾</div>
-          <h2>Merge Backup Files</h2>
-          <p>Combine multiple novel backup files into a single new backup.</p>
-        </div>
-        <div class="tool-card" onclick="launchAppFromCard('augmentBackupWithZip')" role="button" tabindex="0" aria-label="Launch Augment Backup with ZIP tool">
-          <div class="tool-card-icon">💾+📂</div>
-          <h2>Augment Backup with ZIP</h2>
-          <p>Add chapters from a ZIP file to an existing novel backup.</p>
-        </div>
-        <div class="tool-card" onclick="launchAppFromCard('findReplaceBackup')" role="button" tabindex="0" aria-label="Launch Find & Replace in Backup tool">
-          <div class="tool-card-icon">🔍🔁</div>
-          <h2>Find & Replace in Backup</h2>
-          <p>Perform find and replace operations within a novel backup file.</p>
+    <section id="dashboardApp" class="min-h-screen p-4 md:p-8 animate-fade-in">
+      <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold text-white text-center mb-8 animate-bounce-in">
+          Novelist Tools
+        </h1>
+
+        <!-- Tool Cards Grid - Mobile First -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
+               onclick="launchAppFromCard('splitter')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch EPUB Chapter Splitter">
+            <div class="tool-card-icon text-4xl mb-4 text-center">✂️</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">EPUB Chapter Splitter</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Divide EPUB files into individual or grouped chapter text files.
+            </p>
+          </div>
+
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
+               onclick="launchAppFromCard('zipToEpub')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch ZIP to EPUB Converter">
+            <div class="tool-card-icon text-4xl mb-4 text-center">📦📖</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">ZIP to EPUB Converter</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Convert a ZIP of text files into a structured EPUB file.
+            </p>
+          </div>
+
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
+               onclick="launchAppFromCard('epubToZip')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch EPUB to ZIP (TXT) Converter">
+            <div class="tool-card-icon text-4xl mb-4 text-center">📖📄</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">EPUB to ZIP (TXT)</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Extract chapters from an EPUB into a ZIP of text files.
+            </p>
+          </div>
+
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
+               onclick="launchAppFromCard('createBackupFromZip')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch Create Backup from ZIP tool">
+            <div class="tool-card-icon text-4xl mb-4 text-center">🗂️💾</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">Create Backup from ZIP</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Generate a novel backup file directly from a ZIP of text chapters.
+            </p>
+          </div>
+
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
+               onclick="launchAppFromCard('mergeBackup')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch Merge Backup Files tool">
+            <div class="tool-card-icon text-4xl mb-4 text-center">🔄</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">Merge Backup Files</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Combine multiple novel backup files into a single new backup.
+            </p>
+          </div>
+
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
+               onclick="launchAppFromCard('augmentBackupWithZip')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch Augment Backup with ZIP tool">
+            <div class="tool-card-icon text-4xl mb-4 text-center">💾📂</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">Augment Backup with ZIP</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Add chapters from a ZIP file to an existing novel backup.
+            </p>
+          </div>
+
+          <div class="tool-card bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in md:col-span-2 lg:col-span-3"
+               onclick="launchAppFromCard('findReplaceBackup')"
+               role="button"
+               tabindex="0"
+               aria-label="Launch Find & Replace in Backup tool">
+            <div class="tool-card-icon text-4xl mb-4 text-center">🔍🔁</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">Find & Replace in Backup</h2>
+            <p class="text-slate-300 text-sm leading-relaxed text-center">
+              Perform find and replace operations within a novel backup file.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- EPUB Splitter -->
     <div id="splitterApp" class="card tool-section" style="display:none;">
