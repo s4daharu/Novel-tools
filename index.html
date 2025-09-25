@@ -38,6 +38,27 @@
     <div class="title" id="appTitle">Novelist Tools</div>
   </header>
 
+  <!-- Bottom Navigation for Mobile -->
+  <nav class="bottom-nav" id="bottomNav">
+    <div class="nav-item active" onclick="showDashboard()" data-tooltip="Dashboard">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </div>
+    <div class="nav-item" onclick="launchAppFromCard('splitter')" data-tooltip="EPUB Splitter">
+      <div class="nav-icon">✂️</div>
+      <div class="nav-label">Split</div>
+    </div>
+    <div class="nav-item" onclick="launchAppFromCard('createBackupFromZip')" data-tooltip="Create Backup">
+      <div class="nav-icon">📦</div>
+      <div class="nav-label">Create</div>
+    </div>
+    <div class="nav-item" onclick="launchAppFromCard('augmentBackupWithZip')" data-tooltip="Augment Backup">
+      <div class="nav-icon">🔧</div>
+      <div class="nav-label">Augment</div>
+    </div>
+  </nav>
+
+  <!-- Desktop Sidebar (hidden on mobile) -->
   <div class="sidebar" id="sidebar">
     <h2>Tools</h2>
     <button onclick="showDashboard()">Home Dashboard</button>

@@ -35,6 +35,13 @@ export const toolSectionsMap = {
     'findReplaceBackup': { elementId: 'findReplaceBackupApp', title: 'Find & Replace in Backup File' }
 };
 
+// Bottom navigation tool mapping for mobile
+export const bottomNavTools = {
+    'splitter': 'splitter',
+    'createBackupFromZip': 'createBackupFromZip',
+    'augmentBackupWithZip': 'augmentBackupWithZip'
+};
+
 // Attach functions to window object for inline HTML event handlers
 window.toggleMenu = () => {
     uiToggleMenu();

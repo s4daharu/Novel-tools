@@ -159,6 +159,9 @@ export function showDashboard(fromPopStateUpdate = false, currentToolSectionsMap
         toggleMenu();
     }
 
+    // Update bottom navigation active state
+    updateBottomNavActiveState('dashboard');
+
     const targetHash = '#dashboard';
     if (!fromPopStateUpdate && window.location.hash !== targetHash) {
         const historyUrl = window.location.protocol === 'blob:' ? null : targetHash;
@@ -189,6 +192,9 @@ export function launchAppFromCard(appId, fromPopStateUpdate = false, currentTool
     const toolInfo = currentToolSectionsMap[appId];
     const targetToolHash = `#tool-${appId}`;
 
+    // Update bottom navigation active state
+    updateBottomNavActiveState(appId);
+
     if (!fromPopStateUpdate && window.location.hash !== targetToolHash) {
         if (toolInfo) {
             const historyUrl = window.location.protocol === 'blob:' ? null : targetToolHash;
@@ -201,4 +207,30 @@ export function launchAppFromCard(appId, fromPopStateUpdate = false, currentTool
         console.log(`UI: Launch app '${appId}' from popstate, hash is:`, window.location.hash);
     }
     sessionStorage.setItem('activeToolId', appId);
+}
+
+// Update bottom navigation active state
+export function updateBottomNavActiveState(activeView) {
+    const bottomNav = document.getElementById('bottomNav');
+    if (!bottomNav) return;
+
+    // Remove active class from all nav items
+    const navItems = bottomNav.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Add active class to the appropriate nav item
+    const activeNavItem = bottomNav.querySelector(`[onclick*="${activeView}"]`);
+    if (activeNavItem) {
+        activeNavItem.classList.add('active');
+    } else {
+        // If no specific match found, try to find by data attribute or other means
+        navItems.forEach(item => {
+            const onclickAttr = item.getAttribute('onclick');
+            if (onclickAttr && onclickAttr.includes(activeView)) {
+                item.classList.add('active');
+            }
+        });
+    }
 }
