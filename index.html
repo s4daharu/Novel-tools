@@ -79,132 +79,6 @@
     }
   </script>
 
-  <!-- Custom CSS for scrollbar hiding and mobile optimizations -->
-  <style>
-    /* Hide scrollbars but keep functionality */
-    .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Custom button styles for Tailwind */
-    .btn {
-      @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800;
-    }
-
-    .btn-primary {
-      @apply bg-primary-600 hover:bg-primary-700 text-white shadow-lg hover:shadow-xl;
-    }
-
-    .btn-accent {
-      @apply bg-teal-600 hover:bg-teal-700 text-white shadow-lg hover:shadow-xl;
-    }
-
-    .btn-small {
-      @apply px-3 py-1 text-sm;
-    }
-
-    /* Tool card hover effects */
-    .tool-card:hover {
-      transform: translateY(-4px) scale(1.02);
-    }
-
-    /* Mobile-specific optimizations */
-    @media (max-width: 768px) {
-      .tool-card {
-        @apply p-4;
-      }
-
-      .tool-card h2 {
-        @apply text-lg;
-      }
-
-      .tool-card p {
-        @apply text-sm;
-      }
-    }
-
-    /* Active navigation state */
-    .nav-item.active {
-      @apply bg-primary-600 text-white shadow-lg;
-    }
-
-    .nav-item.active .nav-icon {
-      transform: scale(1.1);
-    }
-
-    /* Loading spinner */
-    .spinner {
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top: 3px solid #14b8a6;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* Toast notifications */
-    .status-toast {
-      @apply fixed bottom-20 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white font-medium z-50 transition-all duration-300;
-    }
-
-    .toast-success {
-      @apply bg-green-600;
-    }
-
-    .toast-error {
-      @apply bg-red-600;
-    }
-
-    /* Form elements */
-    .option-group input,
-    .option-group select,
-    .option-group textarea {
-      @apply bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200;
-    }
-
-    .option-group label {
-      @apply block text-sm font-medium text-slate-300 mb-2;
-    }
-
-    /* File upload styling */
-    .filename-display-area {
-      @apply bg-slate-700 border border-slate-600 rounded-lg p-3 text-sm text-slate-400 mt-2;
-    }
-
-    .clear-file-btn {
-      @apply text-slate-400 hover:text-white transition-colors;
-    }
-
-    /* Tool sections */
-    .tool-section {
-      @apply max-w-4xl mx-auto p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl;
-    }
-
-    .tool-section h1 {
-      @apply text-2xl font-bold text-white mb-6;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-      .tool-section {
-        @apply p-4 mx-2;
-      }
-
-      .tool-section h1 {
-        @apply text-xl;
-      }
-    }
-  </style>
 
 <script type="importmap">
 {
@@ -404,13 +278,13 @@
         </div>
       </div>
 
-      <div id="splitterChapterSelectionArea" style="display:none; margin-top:15px;">
-        <h4>Select Chapters to Split:</h4>
-        <div style="margin-bottom:10px; display: flex; gap: 10px; justify-content: center;">
+      <div id="splitterChapterSelectionArea" class="mt-4" style="display:none;">
+        <h4 class="text-sm font-semibold text-slate-200 text-center mb-3">Select Chapters to Split:</h4>
+        <div class="mb-3 flex justify-center gap-2">
           <button type="button" id="splitterSelectAllChapters" class="btn btn-accent btn-small">Select All</button>
           <button type="button" id="splitterDeselectAllChapters" class="btn btn-accent btn-small">Deselect All</button>
         </div>
-        <ul id="splitterChapterList" class="chapter-selection-list" aria-label="List of EPUB chapters for selection">
+        <ul id="splitterChapterList" class="chapter-selection-list text-sm text-slate-200" aria-label="List of EPUB chapters for selection">
           <!-- Chapters will be populated here by JS -->
         </ul>
       </div>

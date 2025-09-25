@@ -628,6 +628,21 @@ function applyTailwindClassesToTools() {
     add('.filename-display-area', ['bg-slate-700','border','border-slate-600','rounded-lg','p-3','text-sm','text-slate-400','mt-2']);
     add('.clear-file-btn', ['text-slate-400','hover:text-white','transition-colors']);
 
+    // Spinners
+    add('.spinner, .spinner-backup', [
+        'inline-block','w-8','h-8','rounded-full','border-4','border-slate-600','border-t-primary-500','animate-spin'
+    ]);
+
+    // Status messages
+    add('#statusMessage, .status', [
+        'rounded-md','p-3','text-sm','text-center','mt-4'
+    ]);
+    add('#statusMessage.success, .status.success', ['bg-green-600','text-white']);
+    add('#statusMessage.error, .status.error', ['bg-red-600','text-white']);
+
+    // Tool info text
+    add('.tool-info-text', ['text-slate-400','text-sm','text-center','mt-2']);
+
     // Toast
     const toast = document.getElementById('toast');
     if (toast) {
