@@ -10,7 +10,10 @@ const sidebarEl = document.getElementById('sidebar');
 // Base map, can be extended by main.js if new tools are added there
 export const toolSectionsMap = {
     'splitter': { elementId: 'splitterApp', title: 'EPUB Chapter Splitter' },
-    'backup': { elementId: 'backupApp', title: 'Novel Backup File Utility' },
+    'mergeBackup': { elementId: 'mergeBackupApp', title: 'Merge Backup Files' },
+    'augmentBackupWithZip': { elementId: 'augmentBackupWithZipApp', title: 'Augment Backup with ZIP' },
+    'findReplaceBackup': { elementId: 'findReplaceBackupApp', title: 'Find & Replace in Backup' },
+    'createBackupFromZip': { elementId: 'createBackupFromZipApp', title: 'Create Backup from ZIP' },
     'zipToEpub': { elementId: 'zipToEpubApp', title: 'ZIP to EPUB Converter' },
     'epubToZip': { elementId: 'epubToZipApp', title: 'EPUB to ZIP (TXT)' }
 };
@@ -136,7 +139,7 @@ function handleToolSwipe(deltaX) {
 // Get current view based on visible elements
 function getCurrentView() {
     const dashboardApp = document.getElementById('dashboardApp');
-    if (dashboardApp && dashboardApp.style.display !== 'none') {
+    if (dashboardApp && !dashboardApp.classList.contains('hidden')) {
         return 'dashboard';
     }
 
@@ -145,7 +148,7 @@ function getCurrentView() {
         if (toolId === 'dashboard') continue;
 
         const toolElement = document.getElementById(toolSectionsMap[toolId]?.elementId);
-        if (toolElement && toolElement.style.display !== 'none') {
+        if (toolElement && !toolElement.classList.contains('hidden')) {
             return toolId;
         }
     }
@@ -229,7 +232,10 @@ function displayTool(appId, currentToolSectionsMap) {
     const dashboardAppEl = document.getElementById('dashboardApp');
     const appTitleEl = document.getElementById('appTitle');
 
-    if (dashboardAppEl) dashboardAppEl.style.display = 'none';
+    // Hide dashboard using Tailwind hidden class
+    if (dashboardAppEl) {
+        dashboardAppEl.classList.add('hidden');
+    }
 
     let currentTitle = 'Novelist Tools';
     let toolDisplayed = false;
@@ -239,11 +245,13 @@ function displayTool(appId, currentToolSectionsMap) {
         const appElement = document.getElementById(toolInfo.elementId);
         if (appElement) {
             if (id === appId) {
-                appElement.style.display = 'block';
+                // Show tool by removing hidden class
+                appElement.classList.remove('hidden');
                 currentTitle = toolInfo.title;
                 toolDisplayed = true;
             } else {
-                appElement.style.display = 'none';
+                // Hide tool by adding hidden class
+                appElement.classList.add('hidden');
             }
         }
     }
@@ -259,12 +267,18 @@ export function showDashboard(fromPopStateUpdate = false, currentToolSectionsMap
     const dashboardAppEl = document.getElementById('dashboardApp');
     const appTitleEl = document.getElementById('appTitle');
 
-    if (dashboardAppEl) dashboardAppEl.style.display = 'block';
+    // Show dashboard by removing hidden class
+    if (dashboardAppEl) {
+        dashboardAppEl.classList.remove('hidden');
+    }
 
+    // Hide all tools using Tailwind hidden class
     for (const id in currentToolSectionsMap) {
         const toolInfo = currentToolSectionsMap[id];
         const appElement = document.getElementById(toolInfo.elementId);
-        if (appElement) appElement.style.display = 'none';
+        if (appElement) {
+            appElement.classList.add('hidden');
+        }
     }
 
     if (appTitleEl) appTitleEl.textContent = 'Novelist Tools';
