@@ -8,7 +8,7 @@ import {
     showDashboard as uiShowDashboard,
     showToast,
     toggleSpinner as displaySpinnerElement,
-    toolSectionsMap as baseToolSectionsMap,
+    toolSectionsMap,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd
@@ -24,16 +24,7 @@ import { initializeMergeBackup } from './merge-backup.js';
 import { initializeAugmentBackupWithZip } from './augment-backup-with-zip.js';
 import { initializeFindReplaceBackup } from './find-replace-backup.js';
 
-// Extend toolSectionsMap from ui-helpers
-export const toolSectionsMap = {
-    'splitter': { elementId: 'splitterApp', title: 'EPUB Chapter Splitter' },
-    'zipToEpub': { elementId: 'zipToEpubApp', title: 'ZIP to EPUB Converter' },
-    'epubToZip': { elementId: 'epubToZipApp', title: 'EPUB to ZIP (TXT)' },
-    'createBackupFromZip': { elementId: 'createBackupFromZipApp', title: 'Create Backup from ZIP' },
-    'mergeBackup': { elementId: 'mergeBackupApp', title: 'Merge Backup Files' },
-    'augmentBackupWithZip': { elementId: 'augmentBackupWithZipApp', title: 'Augment Backup with ZIP' },
-    'findReplaceBackup': { elementId: 'findReplaceBackupApp', title: 'Find & Replace in Backup File' }
-};
+// Use toolSectionsMap from ui-helpers (no override needed)
 
 // Bottom navigation tool mapping for mobile
 export const bottomNavTools = {

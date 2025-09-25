@@ -186,6 +186,9 @@
     /* Tool sections */
     .tool-section {
       @apply max-w-4xl mx-auto p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl;
+      min-height: 400px;
+      position: relative;
+      z-index: 10;
     }
 
     .tool-section h1 {
@@ -196,11 +199,29 @@
     @media (max-width: 640px) {
       .tool-section {
         @apply p-4 mx-2;
+        min-height: 300px;
       }
 
       .tool-section h1 {
         @apply text-xl;
       }
+    }
+
+    /* Debug: Make tools more visible */
+    .tool-section:not(.hidden) {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      background: rgba(30, 41, 59, 0.8) !important;
+      border: 2px solid #0ea5e9 !important;
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.3) !important;
+    }
+
+    /* Ensure hidden class works */
+    .tool-section.hidden {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
     }
   </style>
 

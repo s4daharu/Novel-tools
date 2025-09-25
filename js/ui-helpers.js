@@ -229,11 +229,17 @@ export function toggleSpinner(spinnerElement, show) {
 }
 
 function displayTool(appId, currentToolSectionsMap) {
+    console.log('🔧 displayTool called with appId:', appId);
+    console.log('🔧 currentToolSectionsMap:', currentToolSectionsMap);
+
     const dashboardAppEl = document.getElementById('dashboardApp');
     const appTitleEl = document.getElementById('appTitle');
 
+    console.log('🔧 dashboardAppEl found:', !!dashboardAppEl);
+
     // Hide dashboard using Tailwind hidden class
     if (dashboardAppEl) {
+        console.log('🔧 Hiding dashboard');
         dashboardAppEl.classList.add('hidden');
     }
 
@@ -243,23 +249,36 @@ function displayTool(appId, currentToolSectionsMap) {
     for (const id in currentToolSectionsMap) {
         const toolInfo = currentToolSectionsMap[id];
         const appElement = document.getElementById(toolInfo.elementId);
+        console.log(`🔧 Checking tool ${id}: elementId=${toolInfo.elementId}, element found:`, !!appElement);
+
         if (appElement) {
             if (id === appId) {
+                console.log(`🔧 Showing tool ${id} by removing hidden class`);
                 // Show tool by removing hidden class
                 appElement.classList.remove('hidden');
                 currentTitle = toolInfo.title;
                 toolDisplayed = true;
+                console.log(`🔧 Tool ${id} should now be visible`);
             } else {
+                console.log(`🔧 Hiding tool ${id} by adding hidden class`);
                 // Hide tool by adding hidden class
                 appElement.classList.add('hidden');
             }
+        } else {
+            console.warn(`🔧 Tool element not found for ${id}: ${toolInfo.elementId}`);
         }
     }
-    if (appTitleEl) appTitleEl.textContent = currentTitle;
+
+    if (appTitleEl) {
+        console.log('🔧 Setting title to:', currentTitle);
+        appTitleEl.textContent = currentTitle;
+    }
 
     if (sidebarEl && sidebarEl.classList.contains('open')) {
         toggleMenu();
     }
+
+    console.log('🔧 displayTool completed, toolDisplayed:', toolDisplayed);
     return toolDisplayed;
 }
 
