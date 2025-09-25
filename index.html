@@ -414,51 +414,74 @@
         </div>
       </div>
 
-      <div id="splitterChapterSelectionArea" style="display:none; margin-top:15px;">
-        <h4>Select Chapters to Split:</h4>
-        <div style="margin-bottom:10px; display: flex; gap: 10px; justify-content: center;">
-          <button type="button" id="splitterSelectAllChapters" class="btn btn-accent btn-small">Select All</button>
-          <button type="button" id="splitterDeselectAllChapters" class="btn btn-accent btn-small">Deselect All</button>
+      <div id="splitterChapterSelectionArea" class="hidden mb-6">
+        <label class="block text-sm font-medium text-slate-300 mb-2">Select Chapters to Split</label>
+        <div class="flex gap-3 mb-4 justify-center">
+          <button type="button" id="splitterSelectAllChapters" class="bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-800">
+            Select All
+          </button>
+          <button type="button" id="splitterDeselectAllChapters" class="bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-800">
+            Deselect All
+          </button>
         </div>
-        <ul id="splitterChapterList" class="chapter-selection-list" aria-label="List of EPUB chapters for selection">
+        <ul id="splitterChapterList" class="space-y-2 max-h-64 overflow-y-auto bg-slate-700/30 rounded-lg p-3" aria-label="List of EPUB chapters for selection">
           <!-- Chapters will be populated here by JS -->
         </ul>
       </div>
 
-      <div class="option-group mode-section">
-        <label for="modeSelect">Output Mode:</label>
-        <select id="modeSelect">
+      <div class="mb-6">
+        <label for="modeSelect" class="block text-sm font-medium text-slate-300 mb-2">Output Mode</label>
+        <select id="modeSelect" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200">
           <option value="single">Single Chapter per File</option>
           <option value="grouped">Grouped Chapters per File</option>
         </select>
       </div>
-      <div class="options-section">
-        <div class="option-group">
-          <label for="chapterPattern">Chapter Prefix:
-            <span class="tooltip-trigger" aria-label="More info about Chapter Prefix" role="button" tabindex="0">(?)
-              <span class="tooltip-text-popup">Pattern for naming output files, e.g., 'C' will result in C01.txt, C02.txt. Click to dismiss.</span>
-            </span>
+
+      <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="chapterPattern" class="block text-sm font-medium text-slate-300 mb-2">Chapter Prefix
+            <span class="text-slate-400 text-xs ml-1">(?)</span>
           </label>
-          <input type="text" id="chapterPattern" placeholder="e.g., C" value="C">
+          <input type="text" id="chapterPattern" placeholder="e.g., C" value="C" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200">
+          <p class="text-xs text-slate-400 mt-1">
+            Pattern for naming output files, e.g., 'C' will result in C01.txt, C02.txt.
+          </p>
         </div>
-        <div class="option-group">
-          <label for="startNumber">Start Number:</label>
-          <input type="number" id="startNumber" min="1" value="1" aria-describedby="statusMessage">
+
+        <div>
+          <label for="startNumber" class="block text-sm font-medium text-slate-300 mb-2">Start Number</label>
+          <input type="number" id="startNumber" min="1" value="1" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200" aria-describedby="statusMessage">
         </div>
-        <div class="option-group">
-          <label for="offsetNumber">Offset (skip chapters):</label>
-          <input type="number" id="offsetNumber" min="0" value="0" aria-describedby="statusMessage">
+
+        <div>
+          <label for="offsetNumber" class="block text-sm font-medium text-slate-300 mb-2">Offset (skip chapters)</label>
+          <input type="number" id="offsetNumber" min="0" value="0" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200" aria-describedby="statusMessage">
         </div>
-        <div class="option-group" id="groupSizeGroup" style="display:none;">
-          <label for="groupSize">Chapters per File:</label>
-          <input type="number" id="groupSize" min="1" value="4" aria-describedby="statusMessage">
+
+        <div id="groupSizeGroup" class="hidden">
+          <label for="groupSize" class="block text-sm font-medium text-slate-300 mb-2">Chapters per File</label>
+          <input type="number" id="groupSize" min="1" value="4" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200" aria-describedby="statusMessage">
         </div>
       </div>
-      <button id="splitBtn" class="btn split-btn" disabled>Split EPUB</button>
-      <div id="spinnerSplitter" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusMessage" class="status" style="display:none;" aria-live="polite"></div>
-      <div class="download-section" style="display:none;">
-        <a id="downloadLink" class="btn download-btn">Download Chapters</a>
+
+      <div class="mb-6">
+        <button id="splitBtn" class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800" disabled>
+          Split EPUB
+        </button>
+      </div>
+
+      <div id="spinnerSplitter" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusMessage" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
+
+      <div id="downloadSection" class="hidden mb-6">
+        <a id="downloadLink" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-slate-800 text-center block">
+          Download Chapters
+        </a>
       </div>
     </div>
 
@@ -513,14 +536,27 @@
           If checked, uses original titles. If "Prefix" above is also filled, it's added before the original title.
         </p>
       </div>
-      <button id="mergeBackupBtn" class="btn btn-primary">Merge and Download</button>
-      <p class="tool-info-text" style="font-size: 0.85em; color: var(--secondary-text-color); text-align: center; margin-top: 10px;">
-        Status definitions from all files will be merged (first-seen code for duplicates is kept, then re-ranked).
-        If "Preserve Titles" is unchecked, chapters are re-titled using the prefix and sequential numbers.
-        All chapters are re-ranked sequentially.
-      </p>
-      <div id="spinnerMergeBackup" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusMergeBackup" class="status" style="display:none;" aria-live="polite"></div>
+      <div class="mb-6">
+        <button id="mergeBackupBtn" class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800" disabled>
+          Merge and Download
+        </button>
+      </div>
+
+      <div class="mb-6 p-4 bg-slate-700/30 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center leading-relaxed">
+          Status definitions from all files will be merged (first-seen code for duplicates is kept, then re-ranked).
+          If "Preserve Titles" is unchecked, chapters are re-titled using the prefix and sequential numbers.
+          All chapters are re-ranked sequentially.
+        </p>
+      </div>
+
+      <div id="spinnerMergeBackup" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusMergeBackup" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
     </div>
 
     <!-- Augment Backup with ZIP -->
@@ -587,9 +623,19 @@
         </p>
       </div>
 
-      <button id="augmentBackupBtn" class="btn btn-primary" style="margin-top: 20px;" disabled>Augment and Download</button>
-      <div id="spinnerAugmentBackup" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusAugmentBackup" class="status" style="display:none;" aria-live="polite"></div>
+      <div class="mb-6">
+        <button id="augmentBackupBtn" class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800" disabled>
+          Augment and Download
+        </button>
+      </div>
+
+      <div id="spinnerAugmentBackup" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusAugmentBackup" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
     </div>
 
 
@@ -668,19 +714,33 @@
         </button>
       </div>
 
-      <div id="frMatchInfoArea" class="fr-match-info" style="margin-top: 15px;">
-          <div class="match-context">
-              <span class="match-info-label">Scene:</span> <span id="frMatchSceneTitle">N/A</span>
-              <span class="match-info-label" style="margin-left: 15px;">Block:</span> <span id="frMatchBlockIndex">N/A</span>
+      <div class="mb-6 p-4 bg-slate-700/30 border border-slate-600 rounded-lg">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+          <div>
+            <span class="text-sm font-medium text-slate-400">Scene:</span>
+            <span id="frMatchSceneTitle" class="text-sm text-slate-300 ml-2">N/A</span>
           </div>
-          <div class="match-count-display" id="frMatchCountDisplay" aria-live="polite">0 matches</div>
+          <div>
+            <span class="text-sm font-medium text-slate-400">Block:</span>
+            <span id="frMatchBlockIndex" class="text-sm text-slate-300 ml-2">N/A</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <span id="frMatchCountDisplay" class="text-sm text-slate-300" aria-live="polite">0 matches</span>
+        </div>
       </div>
-      <div id="currentMatchDisplay" class="fr-match-preview" aria-live="polite">
-        No match found yet.
+
+      <div id="currentMatchDisplay" class="mb-6 p-4 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center" aria-live="polite">No match found yet.</p>
       </div>
-      
-      <div id="spinnerFindReplaceBackup" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusFindReplaceBackup" class="status" style="display:none;" aria-live="polite"></div>
+
+      <div id="spinnerFindReplaceBackup" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusFindReplaceBackup" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
     </div>
 
     <!-- Create Backup from ZIP (Standalone Tool) -->
@@ -743,9 +803,19 @@
         <input type="number" id="zipExtraChapters" min="0" value="0" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200" aria-describedby="statusMessageCreateBackupFromZip">
       </div>
 
-      <button id="createFromZipBtn" class="btn btn-primary" disabled>Generate Backup and Download</button>
-      <div id="spinnerCreateBackupFromZip" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusMessageCreateBackupFromZip" class="status" style="display:none;" aria-live="polite"></div>
+      <div class="mb-6">
+        <button id="createFromZipBtn" class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800" disabled>
+          Generate Backup and Download
+        </button>
+      </div>
+
+      <div id="spinnerCreateBackupFromZip" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusMessageCreateBackupFromZip" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
     </div>
 
 
@@ -834,11 +904,24 @@
           </div>
         </details>
       </div>
-      <button id="createEpubBtn" class="btn split-btn" disabled>Create EPUB</button>
-      <div id="spinnerZipToEpub" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusMessageZipToEpub" class="status" style="display:none;" aria-live="polite"></div>
-      <div class="download-section" id="downloadSectionZipToEpub" style="display:none;">
-        <a id="downloadLinkEpub" class="btn download-btn">Download EPUB</a>
+      <div class="mb-6">
+        <button id="createEpubBtn" class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800" disabled>
+          Create EPUB
+        </button>
+      </div>
+
+      <div id="spinnerZipToEpub" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusMessageZipToEpub" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
+
+      <div id="downloadSectionZipToEpub" class="hidden mb-6">
+        <a id="downloadLinkEpub" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-slate-800 text-center block">
+          Download EPUB
+        </a>
       </div>
     </div>
 
@@ -893,11 +976,24 @@
           <input type="number" id="epubToZipLinesToRemove" min="0" value="1" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition-all duration-200" aria-describedby="statusMessageEpubToZip">
         </div>
       </div>
-      <button id="extractChaptersBtn" class="btn split-btn" disabled>Extract Chapters to ZIP</button>
-      <div id="spinnerEpubToZip" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
-      <div id="statusMessageEpubToZip" class="status" style="display:none;" aria-live="polite"></div>
-      <div class="download-section" id="downloadSectionEpubToZip" style="display:none;">
-        <a id="downloadLinkZipFromEpub" class="btn download-btn">Download Chapter TXTs</a>
+      <div class="mb-6">
+        <button id="extractChaptersBtn" class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-800" disabled>
+          Extract Chapters to ZIP
+        </button>
+      </div>
+
+      <div id="spinnerEpubToZip" class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+      </div>
+
+      <div id="statusMessageEpubToZip" class="hidden mb-4 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+        <p class="text-sm text-slate-300 text-center"></p>
+      </div>
+
+      <div id="downloadSectionEpubToZip" class="hidden mb-6">
+        <a id="downloadLinkZipFromEpub" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-slate-800 text-center block">
+          Download Chapter TXTs
+        </a>
       </div>
     </div>
 
