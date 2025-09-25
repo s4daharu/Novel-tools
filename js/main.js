@@ -27,8 +27,7 @@ import { initializeFindReplaceBackup } from './find-replace-backup.js';
 // Extend toolSectionsMap from ui-helpers
 export const toolSectionsMap = {
     'splitter': { elementId: 'splitterApp', title: 'EPUB Chapter Splitter' },
-    'zipToEpub': { elementId: 'zipToEpubApp', title: 'ZIP to EPUB Converter' },
-    'epubToZip': { elementId: 'epubToZipApp', title: 'EPUB to ZIP (TXT)' },
+    'zipEpub': { elementId: 'zipEpubApp', title: 'ZIP ↔ EPUB' },
     'createBackupFromZip': { elementId: 'createBackupFromZipApp', title: 'Create Backup from ZIP' },
     'mergeBackup': { elementId: 'mergeBackupApp', title: 'Merge Backup Files' },
     'augmentBackupWithZip': { elementId: 'augmentBackupWithZipApp', title: 'Augment Backup with ZIP' },
@@ -465,6 +464,7 @@ function getToolInitializer(toolId) {
         'splitter': 'initializeEpubSplitter',
         'zipToEpub': 'initializeZipToEpub',
         'epubToZip': 'initializeEpubToZip',
+        'zipEpub': 'initializeZipEpubCombined',
         'createBackupFromZip': 'initializeCreateBackupFromZip',
         'mergeBackup': 'initializeMergeBackup',
         'augmentBackupWithZip': 'initializeAugmentBackupWithZip',
@@ -561,6 +561,10 @@ const toolModules = {
     'splitter': () => import('./epub-splitter.js'),
     'zipToEpub': () => import('./zip-to-epub.js'),
     'epubToZip': () => import('./epub-to-zip.js'),
+    'zipEpub': () => Promise.all([
+        import('./zip-to-epub.js'),
+        import('./epub-to-zip.js')
+    ]),
     'createBackupFromZip': () => import('./create-backup-from-zip.js'),
     'mergeBackup': () => import('./merge-backup.js'),
     'augmentBackupWithZip': () => import('./augment-backup-with-zip.js'),
@@ -568,6 +572,121 @@ const toolModules = {
 };
 
 const initializedTools = new Map();
+
+// Initialize the combined ZIP ↔ EPUB tool
+async function initializeZipEpubCombined() {
+    console.log('Initializing combined ZIP ↔ EPUB tool');
+
+    // Get the combined tool container
+    const zipEpubApp = document.getElementById('zipEpubApp');
+    if (!zipEpubApp) {
+        console.error('Combined ZIP ↔ EPUB tool container not found');
+        return;
+    }
+
+    // Get the existing tool sections
+    const zipToEpubApp = document.getElementById('zipToEpubApp');
+    const epubToZipApp = document.getElementById('epubToZipApp');
+
+    if (!zipToEpubApp || !epubToZipApp) {
+        console.error('Individual tool sections not found');
+        return;
+    }
+
+    // Move the existing sections into the combined container
+    zipEpubApp.appendChild(zipToEpubApp);
+    zipEpubApp.appendChild(epubToZipApp);
+
+    // Get mode switch buttons
+    const zipToEpubModeBtn = document.getElementById('zipToEpubMode');
+    const epubToZipModeBtn = document.getElementById('epubToZipMode');
+
+    if (!zipToEpubModeBtn || !epubToZipModeBtn) {
+        console.error('Mode switch buttons not found');
+        return;
+    }
+
+    // Get content containers
+    const zipToEpubContent = document.getElementById('zipToEpubContent');
+    const epubToZipContent = document.getElementById('epubToZipContent');
+
+    if (!zipToEpubContent || !epubToZipContent) {
+        console.error('Content containers not found');
+        return;
+    }
+
+    // Get mode preference from sessionStorage or default to ZIP → EPUB
+    const savedMode = sessionStorage.getItem('zipEpubMode') || 'zipToEpub';
+    let currentMode = savedMode;
+
+    // Function to switch modes
+    function switchMode(mode) {
+        if (mode === 'zipToEpub') {
+            // Show ZIP to EPUB, hide EPUB to ZIP
+            zipToEpubContent.style.display = 'block';
+            epubToZipContent.style.display = 'none';
+
+            // Update button states
+            zipToEpubModeBtn.classList.remove('bg-slate-700', 'text-slate-300', 'hover:bg-slate-600');
+            zipToEpubModeBtn.classList.add('bg-primary-600', 'text-white');
+            epubToZipModeBtn.classList.remove('bg-primary-600', 'text-white');
+            epubToZipModeBtn.classList.add('bg-slate-700', 'text-slate-300', 'hover:bg-slate-600');
+
+            currentMode = 'zipToEpub';
+        } else {
+            // Show EPUB to ZIP, hide ZIP to EPUB
+            zipToEpubContent.style.display = 'none';
+            epubToZipContent.style.display = 'block';
+
+            // Update button states
+            epubToZipModeBtn.classList.remove('bg-slate-700', 'text-slate-300', 'hover:bg-slate-600');
+            epubToZipModeBtn.classList.add('bg-primary-600', 'text-white');
+            zipToEpubModeBtn.classList.remove('bg-primary-600', 'text-white');
+            zipToEpubModeBtn.classList.add('bg-slate-700', 'text-slate-300', 'hover:bg-slate-600');
+
+            currentMode = 'epubToZip';
+        }
+
+        // Save mode preference
+        sessionStorage.setItem('zipEpubMode', currentMode);
+
+        // Re-apply Tailwind classes to ensure styling is correct
+        applyTailwindClassesToTools();
+    }
+
+    // Set initial mode
+    switchMode(currentMode);
+
+    // Add event listeners for mode switching
+    zipToEpubModeBtn.addEventListener('click', () => switchMode('zipToEpub'));
+    epubToZipModeBtn.addEventListener('click', () => switchMode('epubToZip'));
+
+    // Initialize the appropriate tool based on current mode
+    if (currentMode === 'zipToEpub') {
+        // Import and initialize ZIP to EPUB
+        try {
+            const { initializeZipToEpub } = await import('./zip-to-epub.js');
+            initializeZipToEpub(showToast, (show) => displaySpinnerElement(document.getElementById('spinnerZipToEpub'), show));
+            console.log('ZIP to EPUB tool initialized');
+        } catch (error) {
+            console.error('Failed to initialize ZIP to EPUB tool:', error);
+        }
+    } else {
+        // Import and initialize EPUB to ZIP
+        try {
+            const { initializeEpubToZip } = await import('./epub-to-zip.js');
+            initializeEpubToZip(showToast, (show) => displaySpinnerElement(document.getElementById('spinnerEpubToZip'), show));
+            console.log('EPUB to ZIP tool initialized');
+        } catch (error) {
+            console.error('Failed to initialize EPUB to ZIP tool:', error);
+        }
+    }
+
+    // Re-apply Tailwind classes to ensure all elements are styled
+    applyTailwindClassesToTools();
+
+    console.log('Combined ZIP ↔ EPUB tool initialized successfully');
+}
 
 function applyTailwindClassesToTools() {
     const add = (selector, classes) => {

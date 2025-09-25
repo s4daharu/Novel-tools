@@ -124,9 +124,9 @@
         <div class="nav-icon text-lg">🔧</div>
         <div class="nav-label text-xs mt-1">Augment</div>
       </button>
-      <button onclick="launchAppFromCard('zipToEpub')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
-        <div class="nav-icon text-lg">📖</div>
-        <div class="nav-label text-xs mt-1">EPUB</div>
+      <button onclick="launchAppFromCard('zipEpub')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+        <div class="nav-icon text-lg">📦↔📖</div>
+        <div class="nav-label text-xs mt-1">ZIP↔EPUB</div>
       </button>
       <button onclick="launchAppFromCard('mergeBackup')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">🔄</div>
@@ -146,11 +146,8 @@
         <button onclick="launchAppFromCard('splitter')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
           EPUB Chapter Splitter
         </button>
-        <button onclick="launchAppFromCard('zipToEpub')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
-          ZIP to EPUB Converter
-        </button>
-        <button onclick="launchAppFromCard('epubToZip')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
-          EPUB to ZIP (TXT)
+        <button onclick="launchAppFromCard('zipEpub')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
+          ZIP ↔ EPUB
         </button>
         <button onclick="launchAppFromCard('createBackupFromZip')" class="w-full text-left px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200">
           Create Backup from ZIP
@@ -192,26 +189,14 @@
           </div>
 
           <div class="tool-card bg-none bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
-               onclick="launchAppFromCard('zipToEpub')"
+               onclick="launchAppFromCard('zipEpub')"
                role="button"
                tabindex="0"
-               aria-label="Launch ZIP to EPUB Converter">
-            <div class="tool-card-icon text-4xl mb-4 text-center">📦📖</div>
-            <h2 class="text-xl font-semibold text-white mb-3 text-center">ZIP to EPUB Converter</h2>
+               aria-label="Launch ZIP ↔ EPUB Converter">
+            <div class="tool-card-icon text-4xl mb-4 text-center">📦↔📖</div>
+            <h2 class="text-xl font-semibold text-white mb-3 text-center">ZIP ↔ EPUB</h2>
             <p class="text-slate-300 text-sm leading-relaxed text-center">
-              Convert a ZIP of text files into a structured EPUB file.
-            </p>
-          </div>
-
-          <div class="tool-card bg-none bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-primary-500/20 animate-slide-in"
-               onclick="launchAppFromCard('epubToZip')"
-               role="button"
-               tabindex="0"
-               aria-label="Launch EPUB to ZIP (TXT) Converter">
-            <div class="tool-card-icon text-4xl mb-4 text-center">📖📄</div>
-            <h2 class="text-xl font-semibold text-white mb-3 text-center">EPUB to ZIP (TXT)</h2>
-            <p class="text-slate-300 text-sm leading-relaxed text-center">
-              Extract chapters from an EPUB into a ZIP of text files.
+              Convert between ZIP files and EPUB format with both directions.
             </p>
           </div>
 
@@ -619,6 +604,132 @@
       <div id="statusMessageEpubToZip" class="status" style="display:none;" aria-live="polite"></div>
       <div class="download-section" id="downloadSectionEpubToZip" style="display:none;">
         <a id="downloadLinkZipFromEpub" class="btn download-btn">Download Chapter TXTs</a>
+      </div>
+    </div>
+
+    <!-- Combined ZIP ↔ EPUB Tool -->
+    <div id="zipEpubApp" class="card tool-section" style="display:none;">
+      <h1>ZIP ↔ EPUB Converter</h1>
+
+      <!-- Mode Switch -->
+      <div class="option-group" style="margin-bottom: 20px;">
+        <label>Conversion Direction:</label>
+        <div class="flex justify-center gap-2 mt-2">
+          <button id="zipToEpubMode" class="px-4 py-2 rounded-lg font-medium bg-primary-600 text-white shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500">
+            ZIP → EPUB
+          </button>
+          <button id="epubToZipMode" class="px-4 py-2 rounded-lg font-medium bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500">
+            EPUB → ZIP
+          </button>
+        </div>
+      </div>
+
+      <!-- ZIP to EPUB Section (shown by default) -->
+      <div id="zipToEpubContent">
+        <div class="upload-section option-group">
+          <label for="zipUploadForEpub" class="btn upload-btn" id="zipUploadForEpubLabel">Upload ZIP File (.zip with .txt chapters)</label>
+          <input type="file" id="zipUploadForEpub" accept=".zip" style="display:none;" aria-labelledby="zipUploadForEpubLabel">
+          <div class="filename-display-area">
+              <span id="zipFileNameForEpub"></span>
+              <button type="button" id="clearZipUploadForEpub" class="clear-file-btn" aria-label="Clear ZIP file" style="display:none;">&times;</button>
+          </div>
+        </div>
+
+        <div id="zipToEpubChapterArea" class="option-group" style="display:none;">
+            <label>Chapter Order and Titles:</label>
+            <p style="font-size: 0.8em; color: var(--secondary-text-color); text-align: center; margin-top: -5px;">
+                Drag to reorder. Click a title to edit it.
+            </p>
+            <ul id="zipToEpubChapterList" class="chapter-list-draggable" aria-label="List of chapters to include in the EPUB">
+                <!-- Dynamically populated by JS -->
+            </ul>
+        </div>
+
+        <div class="options-section">
+          <div class="option-group">
+            <label for="epubTitle">EPUB Title:</label>
+            <input type="text" id="epubTitle" placeholder="Enter EPUB title" value="My Novel" aria-describedby="statusMessageZipToEpub">
+          </div>
+          <div class="option-group">
+            <label for="epubAuthor">Author:</label>
+            <input type="text" id="epubAuthor" placeholder="Enter author name" value="Unknown Author" aria-describedby="statusMessageZipToEpub">
+          </div>
+
+          <div class="option-group">
+              <label for="epubCoverImage" id="epubCoverImageLabel">Cover Image (Optional, JPG/PNG):</label>
+              <input type="file" id="epubCoverImage" accept="image/jpeg,image/png" style="margin-top:5px;" aria-labelledby="epubCoverImageLabel">
+              <div class="filename-display-area" style="margin-top:5px;">
+                  <span id="epubCoverFileName" style="font-size:12px;color:#aaa;"></span>
+                  <button type="button" id="clearEpubCoverImage" class="clear-file-btn" aria-label="Clear cover image" style="display:none;">&times;</button>
+              </div>
+          </div>
+
+          <details class="advanced-options-accordion">
+              <summary>Advanced Options</summary>
+              <div class="accordion-content">
+                  <div class="option-group">
+                    <label for="epubLanguage">Language Code:</label>
+                    <input type="text" id="epubLanguage" placeholder="e.g., en" value="en" aria-describedby="statusMessageZipToEpub">
+                  </div>
+                  <div class="option-group">
+                      <label class="checkbox-label-wrapper" for="processMarkdown">
+                          <input type="checkbox" id="processMarkdown" /> Process chapter text as Markdown
+                      </label>
+                       <p style="font-size: 0.8em; color: var(--secondary-text-color); text-align: center; margin-top: -5px;">
+                          Supports headings (#), bold (**text**), and italic (*text*).
+                      </p>
+                  </div>
+              </div>
+          </details>
+        </div>
+        <button id="createEpubBtn" class="btn split-btn" disabled>Create EPUB</button>
+        <div id="spinnerZipToEpub" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
+        <div id="statusMessageZipToEpub" class="status" style="display:none;" aria-live="polite"></div>
+        <div class="download-section" id="downloadSectionZipToEpub" style="display:none;">
+          <a id="downloadLinkEpub" class="btn download-btn">Download EPUB</a>
+        </div>
+      </div>
+
+      <!-- EPUB to ZIP Section (hidden by default) -->
+      <div id="epubToZipContent" style="display:none;">
+        <div class="upload-section option-group">
+          <label for="epubUploadForTxt" class="btn upload-btn" id="epubUploadForTxtLabel">Upload EPUB File</label>
+          <input type="file" id="epubUploadForTxt" accept=".epub" style="display:none;" aria-labelledby="epubUploadForTxtLabel">
+          <div class="filename-display-area">
+              <span id="epubFileNameForTxt"></span>
+              <button type="button" id="clearEpubUploadForTxt" class="clear-file-btn" aria-label="Clear EPUB file" style="display:none;">&times;</button>
+          </div>
+        </div>
+
+        <div id="epubToZipChapterSelectionArea" style="display:none; margin-top:15px;">
+          <h4>Select Chapters to Extract:</h4>
+          <div style="margin-bottom:10px; display: flex; gap: 10px; justify-content: center;">
+            <button type="button" id="epubToZipSelectAllChapters" class="btn btn-accent btn-small">Select All</button>
+            <button type="button" id="epubToZipDeselectAllChapters" class="btn btn-accent btn-small">Deselect All</button>
+          </div>
+          <ul id="epubToZipChapterList" class="chapter-selection-list" aria-label="List of EPUB chapters for text extraction">
+            <!-- Chapters will be populated here by JS -->
+          </ul>
+        </div>
+
+        <div class="options-section">
+          <div class="option-group">
+            <label class="checkbox-label-wrapper" for="epubToZipEnableRemoveLines">
+              <input type="checkbox" id="epubToZipEnableRemoveLines" />
+              Remove initial lines from chapters
+            </label>
+          </div>
+          <div class="option-group" id="epubToZipRemoveLinesOptionsGroup" style="display:none;">
+            <label for="epubToZipLinesToRemove">Number of lines to remove:</label>
+            <input type="number" id="epubToZipLinesToRemove" min="0" value="1" aria-describedby="statusMessageEpubToZip">
+          </div>
+        </div>
+        <button id="extractChaptersBtn" class="btn split-btn" disabled>Extract Chapters to ZIP</button>
+        <div id="spinnerEpubToZip" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
+        <div id="statusMessageEpubToZip" class="status" style="display:none;" aria-live="polite"></div>
+        <div class="download-section" id="downloadSectionEpubToZip" style="display:none;">
+          <a id="downloadLinkZipFromEpub" class="btn download-btn">Download Chapter TXTs</a>
+        </div>
       </div>
     </div>
 
