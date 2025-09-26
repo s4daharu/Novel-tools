@@ -83,7 +83,7 @@
 <script type="importmap">
 {
   "imports": {
-    "jszip": "./vendor/jszip.esm.min.js"
+    "jszip": "https://esm.sh/jszip@3.10.1?bundle"
   }
 }
 </script>
@@ -636,11 +636,8 @@
 
   <div id="toast" class="status-toast" role="alert" aria-live="assertive"></div>
 
-  <!--
-    JSZip: For Capacitor apps and PWA offline support, this library is crucial.
-    It should be served locally.
-  -->
-  <script src="jszip.min.js"></script> <!-- Ensure jszip.min.js is in the root or update path -->
+  <!-- JSZip fallback for offline use -->
+  <script src="jszip.min.js"></script>
 
   <script type="module" src="js/index.js"></script>
 </body>

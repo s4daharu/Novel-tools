@@ -3,6 +3,24 @@
  */
 
 /**
+ * Get JSZip with fallback support
+ * @returns {Promise<JSZip>} JSZip instance
+ */
+export async function getJSZip() {
+    try {
+        // Try ESM import first (online)
+        const mod = await import('jszip');
+        return (mod && mod.default) || mod;
+    } catch (e) {
+        // Fallback to global UMD (offline)
+        if (window.JSZip) {
+            return window.JSZip;
+        }
+        throw new Error('JSZip not available. Please check your internet connection or ensure jszip.min.js is loaded.');
+    }
+}
+
+/**
  * Triggers a file download using standard browser APIs
  * @param {Blob} blob The Blob to download
  * @param {string} filename The desired filename for the downloaded file

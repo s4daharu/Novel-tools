@@ -2,7 +2,7 @@
  * Browser-compatible EPUB to ZIP converter
  */
 
-import { triggerDownload } from './browser-helpers.js';
+import { triggerDownload, getJSZip } from './browser-helpers.js';
 
 let currentZipInstance = null;
 let currentTocEntries = [];
@@ -423,7 +423,7 @@ export function initializeEpubToZip(showAppToast, toggleAppSpinner) {
         try {
             const arrayBuffer = await readFileAsArrayBuffer(file);
             updateLocalStatus('Unzipping EPUB...');
-            const JSZip = (await import('jszip')).default;
+            const JSZip = await getJSZip();
             currentZipInstance = await JSZip.loadAsync(arrayBuffer);
 
             updateLocalStatus('Parsing Table of Contents...');

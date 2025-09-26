@@ -2,7 +2,7 @@
  * Browser-compatible EPUB Splitter functionality
  */
 
-import { triggerDownload } from './browser-helpers.js';
+import { triggerDownload, getJSZip } from './browser-helpers.js';
 
 // Helper function
 function readFileAsArrayBuffer(file) {
@@ -127,7 +127,7 @@ export function initializeEpubSplitter(showAppToast, toggleAppSpinner) {
             toggleAppSpinner(true);
             try {
                 const buffer = await readFileAsArrayBuffer(selectedFile);
-                const JSZip = (await import('jszip')).default;
+                const JSZip = await getJSZip();
                 const epub = await JSZip.loadAsync(buffer);
                 const tempChapters = [];
                 const structure = {};
@@ -319,7 +319,7 @@ export function initializeEpubSplitter(showAppToast, toggleAppSpinner) {
                 return;
             }
             const effectiveStart = startNumber;
-            const JSZip = (await import('jszip')).default;
+            const JSZip = await getJSZip();
             const zip = new JSZip();
 
             if (mode === 'single') {

@@ -120,7 +120,7 @@ export function handleTouchEnd() {
 }
 
 // Handle swipe navigation between tools
-function handleToolSwipe(deltaX, currentToolSectionsMap) {
+function handleToolSwipe(deltaX, currentToolSectionsMap = toolSectionsMap) {
     const currentView = getCurrentView(currentToolSectionsMap);
     const currentIndex = BOTTOM_NAV_TOOLS.indexOf(currentView);
 
@@ -142,7 +142,7 @@ function handleToolSwipe(deltaX, currentToolSectionsMap) {
 }
 
 // Get current view based on visible elements
-function getCurrentView(currentToolSectionsMap) {
+function getCurrentView(currentToolSectionsMap = toolSectionsMap) {
     const dashboardApp = document.getElementById('dashboardApp');
     if (dashboardApp && dashboardApp.style.display !== 'none') {
         return 'dashboard';
@@ -162,7 +162,7 @@ function getCurrentView(currentToolSectionsMap) {
 }
 
 // Navigate to a specific tool with animation
-function navigateToTool(toolId, currentToolSectionsMap) {
+function navigateToTool(toolId, currentToolSectionsMap = toolSectionsMap) {
     if (toolId === 'dashboard') {
         showDashboard(false, currentToolSectionsMap);
     } else if (currentToolSectionsMap[toolId]) {
@@ -174,7 +174,7 @@ function navigateToTool(toolId, currentToolSectionsMap) {
 }
 
 // Show visual feedback for swipe navigation
-function showSwipeFeedback(toolId, currentToolSectionsMap) {
+function showSwipeFeedback(toolId, currentToolSectionsMap = toolSectionsMap) {
     const feedback = document.createElement('div');
     feedback.className = 'swipe-feedback';
     feedback.textContent = `→ ${currentToolSectionsMap[toolId]?.title || 'Dashboard'}`;

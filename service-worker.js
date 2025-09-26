@@ -10,7 +10,6 @@ const STATIC_PATHS = new Set([
   '/',
   '/index.html',
   '/index.css',
-  '/vendor/jszip.esm.min.js',
   '/manifest.json'
 ]);
 

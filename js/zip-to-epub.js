@@ -2,7 +2,7 @@
  * Browser-compatible ZIP to EPUB converter
  */
 
-import { triggerDownload } from './browser-helpers.js';
+import { triggerDownload, getJSZip } from './browser-helpers.js';
 
 // Helper: Generate a UUID (simple version)
 function generateUUID() {
@@ -248,7 +248,7 @@ export function initializeZipToEpub(showAppToast, toggleAppSpinner) {
             toggleAppSpinner(true);
 
             try {
-                const JSZip = (await import('jszip')).default;
+                const JSZip = await getJSZip();
                 const contentZip = await JSZip.loadAsync(selectedZipFile);
                 const chapterPromises = [];
                 contentZip.forEach((relativePath, zipEntry) => {
@@ -349,7 +349,7 @@ export function initializeZipToEpub(showAppToast, toggleAppSpinner) {
         if (downloadSec) downloadSec.style.display = 'none';
 
         try {
-            const JSZip = (await import('jszip')).default;
+            const JSZip = await getJSZip();
             const epubZip = new JSZip();
 
             epubZip.file("mimetype", "application/epub+zip", { compression: "STORE" });
