@@ -8,7 +8,6 @@ import {
     showDashboard as uiShowDashboard,
     showToast,
     toggleSpinner as displaySpinnerElement,
-    toolSectionsMap as baseToolSectionsMap,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd
