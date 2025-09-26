@@ -493,8 +493,8 @@ export function initializeEpubToZip(showAppToast, toggleAppSpinner) {
         extractBtn.textContent = 'Extracting...';
         toggleAppSpinner(true);
 
-        const JSZip = (await import('jszip')).default;
-        const outputZip = new JSZip();
+            const JSZip = await getJSZip();
+            const outputZip = new JSZip();
         let filesAdded = 0;
         const totalChaptersToProcess = selectedChapters.length;
 
