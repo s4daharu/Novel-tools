@@ -107,27 +107,27 @@
   <!-- Bottom Navigation for Mobile - Horizontally Scrollable -->
   <nav id="bottomNav" class="fixed bottom-0 left-0 right-0 bg-slate-800/95 backdrop-blur-sm border-t border-slate-700 z-50 md:hidden">
     <div class="flex overflow-x-auto scrollbar-hide px-2 py-2 gap-1">
-      <button onclick="showDashboard()" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+      <button onclick="showDashboard()" data-tool-id="dashboard" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">🏠</div>
         <div class="nav-label text-xs mt-1">Home</div>
       </button>
-      <button onclick="launchAppFromCard('splitter')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+      <button onclick="launchAppFromCard('splitter')" data-tool-id="splitter" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">✂️</div>
         <div class="nav-label text-xs mt-1">Split</div>
       </button>
-      <button onclick="launchAppFromCard('createBackupFromZip')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+      <button onclick="launchAppFromCard('createBackupFromZip')" data-tool-id="createBackupFromZip" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">📦</div>
         <div class="nav-label text-xs mt-1">Create</div>
       </button>
-      <button onclick="launchAppFromCard('augmentBackupWithZip')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+      <button onclick="launchAppFromCard('augmentBackupWithZip')" data-tool-id="augmentBackupWithZip" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">🔧</div>
         <div class="nav-label text-xs mt-1">Augment</div>
       </button>
-      <button onclick="launchAppFromCard('zipEpub')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+      <button onclick="launchAppFromCard('zipEpub')" data-tool-id="zipEpub" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">🔄</div>
         <div class="nav-label text-xs mt-1">Converter</div>
       </button>
-      <button onclick="launchAppFromCard('mergeBackup')" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
+      <button onclick="launchAppFromCard('mergeBackup')" data-tool-id="mergeBackup" class="nav-item flex flex-col items-center justify-center min-w-[80px] px-3 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700 active:scale-95 flex-shrink-0">
         <div class="nav-icon text-lg">🔄</div>
         <div class="nav-label text-xs mt-1">Merge</div>
       </button>
