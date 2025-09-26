@@ -541,78 +541,102 @@ textarea#zipDescription {
 /* End Find & Replace Modernized Styles */
 
 
-/* Chapter Selection List Styles */
+/* Chapter Selection List Styles - Updated for new design system */
 .chapter-selection-list {
   max-height: 200px;
   overflow-y: auto;
   background: var(--input-background);
-  border: 1px solid #444; 
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 10px;
+  padding: 12px;
   list-style-type: none;
-  margin: 10px 0 20px 0; 
+  margin: 10px 0 20px 0;
   text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--input-background);
 }
 
 .chapter-selection-list li {
-  padding: 8px 5px;
+  padding: 10px 8px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #383838;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--primary-text-color);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  margin-bottom: 2px;
 }
 .chapter-selection-list li:last-child {
   border-bottom: none;
+  margin-bottom: 0;
 }
 .chapter-selection-list li:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.chapter-selection-list li:last-child {
+  margin-bottom: 0;
 }
 
 .chapter-selection-list input[type="checkbox"] {
-  margin-right: 12px; 
-  flex-shrink: 0; 
+  margin-right: 12px;
+  flex-shrink: 0;
+  accent-color: var(--accent-color);
 }
-.chapter-selection-list label { 
-  color: inherit; 
+.chapter-selection-list label {
+  color: inherit;
   font-size: 14px;
-  flex-grow: 1; 
+  flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 
-/* Draggable Chapter List Styles */
+/* Draggable Chapter List Styles - Updated for new design system */
 .chapter-list-draggable {
     list-style: none;
     padding: 0;
     margin: 10px 0 20px 0;
-    border: 1px solid #444;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     background: var(--input-background);
     max-height: 250px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--input-background);
 }
 
 .chapter-list-draggable li {
     display: flex;
     align-items: center;
-    padding: 8px 12px;
-    border-bottom: 1px solid #383838;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     cursor: grab;
     user-select: none;
-    transition: background-color 0.2s, opacity 0.2s;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    margin-bottom: 2px;
 }
 
 .chapter-list-draggable li:last-child {
     border-bottom: none;
+    margin-bottom: 0;
+}
+
+.chapter-list-draggable li:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .chapter-list-draggable li.dragging {
-    opacity: 0.5;
+    opacity: 0.7;
     background: var(--accent-color);
+    color: white;
+    transform: rotate(2deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .chapter-list-draggable li:active {
@@ -620,10 +644,18 @@ textarea#zipDescription {
 }
 
 .drag-handle {
-    margin-right: 10px;
+    margin-right: 12px;
     color: var(--secondary-text-color);
     font-size: 1.2em;
     line-height: 1;
+    padding: 2px;
+    border-radius: 3px;
+    transition: color 0.2s ease;
+}
+
+.drag-handle:hover {
+    color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .chapter-title-input {
@@ -631,53 +663,63 @@ textarea#zipDescription {
     background: transparent;
     border: none;
     color: var(--primary-text-color);
-    padding: 4px 6px;
+    padding: 6px 8px;
     border-radius: 4px;
     border: 1px solid transparent;
     font-size: 14px;
+    transition: all 0.2s ease;
+}
+.chapter-title-input:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 .chapter-title-input:focus {
-    background: rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.1);
     border-color: var(--accent-color);
     outline: none;
 }
 
-/* Accordion Styles */
+/* Accordion Styles - Updated for new design system */
 .advanced-options-accordion {
     margin-top: 15px;
-    border: 1px solid #444;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
 }
 
 .advanced-options-accordion summary {
-    padding: 12px;
+    padding: 14px 16px;
     cursor: pointer;
     outline: none;
     font-weight: 500;
-    color: #ffffffcc;
+    color: var(--primary-text-color);
     list-style-position: inside;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid transparent;
 }
 .advanced-options-accordion summary:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--accent-color);
 }
 
 .advanced-options-accordion summary:focus-visible {
-    box-shadow: 0 0 0 2px var(--focus-outline-color);
+    box-shadow: 0 0 0 2px var(--focus-ring-color);
     border-radius: 7px;
 }
 
 .advanced-options-accordion[open] > summary {
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .advanced-options-accordion .accordion-content {
-    padding: 15px;
+    padding: 16px;
     border-top: none;
+    background: rgba(255, 255, 255, 0.02);
 }
 .advanced-options-accordion .accordion-content .option-group {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .advanced-options-accordion .accordion-content .option-group:last-child {
     margin-bottom: 0;
