@@ -57,7 +57,7 @@ body {
 .title {
   font-size: 20px;
   font-weight: bold;
-  color: #fff;
+  color: var(--primary-text-color);
 }
 
 
@@ -88,8 +88,8 @@ button:focus-visible,
 }
 
 /* Common styling for labels within an option-group */
-.option-group > label:not(.checkbox-label-wrapper) { 
-  color: #ffffffcc;
+.option-group > label:not(.checkbox-label-wrapper) {
+  color: var(--primary-text-color);
   margin-bottom: 8px; /* Space between label and input */
   display: block; /* Ensure label is on its own line */
   font-size: 14px; /* Slightly smaller for differentiation */
@@ -122,13 +122,13 @@ button:focus-visible,
 
 /* Style for file inputs when their label acts as a button, or direct file input styling if not hidden */
 .option-group input[type="file"] {
-    /* If input type=file is directly visible, style it. 
+    /* If input type=file is directly visible, style it.
        Usually it's hidden and a <label class="btn"> is used. */
     width: 100%;
-    padding: 8px 12px; 
+    padding: 8px 12px;
     margin-top: 5px; /* If label is separate and above */
     background: var(--input-background);
-    border: 1px solid #444;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--primary-text-color);
     font-size: 13px; /* Smaller font for file input controls */
@@ -172,24 +172,24 @@ button:focus-visible,
 .tooltip-text-popup {
   visibility: hidden;
   width: 220px;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--sidebar-background);
+  color: var(--primary-text-color);
   text-align: left;
   border-radius: 6px;
   padding: 8px 12px;
   position: absolute;
   z-index: 100;
-  bottom: 125%; 
+  bottom: 125%;
   left: 50%;
-  margin-left: -110px; 
+  margin-left: -110px;
   opacity: 0;
   transition: opacity 0.3s, visibility 0.3s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   font-size: 13px;
   line-height: 1.4;
-  font-weight: normal; 
+  font-weight: normal;
 }
-.tooltip-text-popup::after { 
+.tooltip-text-popup::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -197,7 +197,7 @@ button:focus-visible,
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #333 transparent transparent transparent;
+  border-color: var(--sidebar-background) transparent transparent transparent;
 }
 .tooltip-trigger:hover .tooltip-text-popup,
 .tooltip-trigger.active .tooltip-text-popup { 
@@ -218,13 +218,13 @@ button:focus-visible,
 
 /* Specific styling for EPUB to ZIP 'lines to remove' input */
 #epubToZipRemoveLinesOptionsGroup {
-  padding-left: 0; 
+  padding-left: 0;
   margin-top: 5px;
   margin-bottom: 15px;
 }
 #epubToZipRemoveLinesOptionsGroup input[type="number"]#epubToZipLinesToRemove {
-  max-width: 100px; 
-  margin: 5px auto 0; 
+  max-width: 100px;
+  margin: 5px auto 0;
 }
 
 
@@ -275,11 +275,11 @@ button:focus-visible,
   font-size: 14px;
   color: var(--secondary-text-color);
   text-align: center;
-  min-height: 20px; 
+  min-height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.1); /* Subtle background */
+  background: rgba(255, 255, 255, 0.05); /* Subtle background */
   padding: 5px 8px;
   border-radius: 6px;
 }
@@ -329,8 +329,8 @@ textarea { /* General textarea, if not in option-group */
   transition: border-color .3s, box-shadow .3s;
 }
 textarea:focus {
-  border-color: var(--input-border-focus); 
-  box-shadow: 0 0 0 2px var(--focus-outline-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
 }
 
 /* Specific textarea heights */
@@ -357,12 +357,12 @@ textarea#zipDescription {
 
 .status-toast { /* Global toast notification */
   position: fixed;
-  bottom: calc(20px + var(--safe-area-inset-bottom)); 
+  bottom: calc(20px + var(--safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   padding: 14px 24px;
   border-radius: 8px;
-  color: #fff;
+  color: var(--primary-text-color);
   font-size: 14px;
   opacity: 0;
   pointer-events: none;
@@ -388,7 +388,7 @@ textarea#zipDescription {
 .dashboard-container h1 {
   font-size: 28px;
   margin-bottom: 20px;
-  color: #fff;
+  color: var(--primary-text-color);
   padding: 0 20px;
 }
 
@@ -490,7 +490,7 @@ textarea#zipDescription {
 
 
 .fr-match-info {
-  background: rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.05);
   padding: 10px 12px;
   border-radius: 8px;
   margin-bottom: 10px;
@@ -516,19 +516,19 @@ textarea#zipDescription {
 }
 
 
-.fr-match-preview { 
+.fr-match-preview {
   background: var(--input-background);
   padding: 12px;
   border-radius: 8px;
-  min-height: 60px; 
-  white-space: pre-wrap; 
-  word-wrap: break-word; 
+  min-height: 60px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   color: var(--primary-text-color);
-  font-family: 'Consolas', 'Monaco', monospace; 
+  font-family: 'Consolas', 'Monaco', monospace;
   font-size: 0.95em;
   line-height: 1.5;
-  border: 1px solid #383838; 
-  max-height: 150px; 
+  border: 1px solid var(--border-color);
+  max-height: 150px;
   overflow-y: auto;
 }
 
@@ -822,7 +822,7 @@ textarea#zipDescription {
 
 .tool-card:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 28px rgba(0, 151, 167, 0.25), 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 28px var(--focus-ring-color), 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .tool-card:active {
@@ -857,13 +857,13 @@ textarea#zipDescription {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(0, 151, 167, 0.7);
+    box-shadow: 0 0 0 0 var(--focus-ring-color);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(0, 151, 167, 0);
+    box-shadow: 0 0 0 10px rgba(8, 145, 178, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 151, 167, 0);
+    box-shadow: 0 0 0 0 var(--focus-ring-color);
   }
 }
 
@@ -882,7 +882,7 @@ html {
 .btn:focus-visible {
   outline: 3px solid var(--accent-color);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(0, 151, 167, 0.2);
+  box-shadow: 0 0 0 6px var(--focus-ring-color);
 }
 
 /* Micro-interactions for form elements */
