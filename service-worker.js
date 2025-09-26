@@ -6,13 +6,13 @@ const DYNAMIC_CACHE = `novelist-tools-dynamic-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `novelist-tools-runtime-${CACHE_VERSION}`;
 
 // Mobile-first caching strategy
-const STATIC_ASSETS = [
-  './',
-  './index.html',
-  './index.css',
-  './jszip.min.js',
-  './manifest.json'
-];
+const STATIC_PATHS = new Set([
+  '/',
+  '/index.html',
+  '/index.css',
+  '/vendor/jszip.esm.min.js',
+  '/manifest.json'
+]);
 
 const CRITICAL_ICONS = [
   './icons/icon-72x72.png',
@@ -31,11 +31,11 @@ self.addEventListener('install', event => {
 
   event.waitUntil(
     Promise.all([
-      // Cache static assets (critical for app shell)
-      caches.open(STATIC_CACHE).then(cache => {
-        console.log('[SW] Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
-      }),
+    // Cache static assets (critical for app shell)
+    caches.open(STATIC_CACHE).then(cache => {
+      console.log('[SW] Caching static assets');
+      return cache.addAll(Array.from(STATIC_PATHS));
+    }),
       // Cache critical icons (mobile PWA essentials)
       caches.open(STATIC_CACHE).then(cache => {
         console.log('[SW] Caching critical icons');
@@ -97,7 +97,7 @@ async function handleRequest(request) {
 
   try {
     // 1. Static assets (cache-first for performance)
-    if (STATIC_ASSETS.some(asset => url.pathname.endsWith(asset.split('/').pop()))) {
+    if (STATIC_PATHS.has(url.pathname)) {
       return await cacheFirst(request, STATIC_CACHE);
     }
 
@@ -107,7 +107,7 @@ async function handleRequest(request) {
     }
 
     // 3. JavaScript modules (stale-while-revalidate)
-    if (url.pathname.startsWith('./js/') && url.pathname.endsWith('.js')) {
+    if (url.pathname.startsWith('/js/') && url.pathname.endsWith('.js')) {
       return await staleWhileRevalidate(request, DYNAMIC_CACHE);
     }
 
@@ -195,8 +195,12 @@ async function staleWhileRevalidate(request, cacheName) {
     return cached;
   }
 
-  // Wait for network response
-  return await networkPromise;
+  // Wait for network response, throw if null
+  const networkResponse = await networkPromise;
+  if (networkResponse) {
+    return networkResponse;
+  }
+  throw new Error('Network request failed for JS module');
 }
 
 // Cache-first with network fallback

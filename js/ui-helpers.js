@@ -37,10 +37,10 @@ export function toggleMenu() {
     if (!el) return;
     if (el.classList.contains('translate-x-full')) {
         el.classList.remove('translate-x-full');
-        el.classList.add('translate-x-0');
+        el.classList.add('translate-x-0', 'open');
     } else {
         el.classList.add('translate-x-full');
-        el.classList.remove('translate-x-0');
+        el.classList.remove('translate-x-0', 'open');
     }
 }
 
@@ -120,8 +120,8 @@ export function handleTouchEnd() {
 }
 
 // Handle swipe navigation between tools
-function handleToolSwipe(deltaX) {
-    const currentView = getCurrentView();
+function handleToolSwipe(deltaX, currentToolSectionsMap) {
+    const currentView = getCurrentView(currentToolSectionsMap);
     const currentIndex = BOTTOM_NAV_TOOLS.indexOf(currentView);
 
     if (currentIndex === -1) return;
@@ -138,11 +138,11 @@ function handleToolSwipe(deltaX) {
     }
 
     const newTool = BOTTOM_NAV_TOOLS[newIndex];
-    navigateToTool(newTool);
+    navigateToTool(newTool, currentToolSectionsMap);
 }
 
 // Get current view based on visible elements
-function getCurrentView() {
+function getCurrentView(currentToolSectionsMap) {
     const dashboardApp = document.getElementById('dashboardApp');
     if (dashboardApp && dashboardApp.style.display !== 'none') {
         return 'dashboard';
@@ -152,7 +152,7 @@ function getCurrentView() {
     for (const toolId of BOTTOM_NAV_TOOLS) {
         if (toolId === 'dashboard') continue;
 
-        const toolElement = document.getElementById(toolSectionsMap[toolId]?.elementId);
+        const toolElement = document.getElementById(currentToolSectionsMap[toolId]?.elementId);
         if (toolElement && toolElement.style.display !== 'none') {
             return toolId;
         }
@@ -162,22 +162,22 @@ function getCurrentView() {
 }
 
 // Navigate to a specific tool with animation
-function navigateToTool(toolId) {
+function navigateToTool(toolId, currentToolSectionsMap) {
     if (toolId === 'dashboard') {
-        showDashboard();
-    } else if (toolSectionsMap[toolId]) {
-        launchAppFromCard(toolId);
+        showDashboard(false, currentToolSectionsMap);
+    } else if (currentToolSectionsMap[toolId]) {
+        launchAppFromCard(toolId, false, currentToolSectionsMap);
     }
 
     // Add visual feedback for swipe
-    showSwipeFeedback(toolId);
+    showSwipeFeedback(toolId, currentToolSectionsMap);
 }
 
 // Show visual feedback for swipe navigation
-function showSwipeFeedback(toolId) {
+function showSwipeFeedback(toolId, currentToolSectionsMap) {
     const feedback = document.createElement('div');
     feedback.className = 'swipe-feedback';
-    feedback.textContent = `→ ${toolSectionsMap[toolId]?.title || 'Dashboard'}`;
+    feedback.textContent = `→ ${currentToolSectionsMap[toolId]?.title || 'Dashboard'}`;
     feedback.style.cssText = `
         position: fixed;
         top: 50%;

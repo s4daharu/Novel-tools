@@ -347,7 +347,7 @@ function showUpdateNotification() {
 let deferredInstallPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
-    deferredInstallPrompt = e;
+    window.deferredInstallPrompt = e;
     console.log('PWA installation prompt available');
 });
 
@@ -416,6 +416,18 @@ function preloadCriticalTools() {
     });
 }
 
+// Spinner element ID mapping for each tool
+const spinnerIdMap = {
+    'splitter': 'spinnerSplitter',
+    'zipToEpub': 'spinnerZipToEpub',
+    'epubToZip': 'spinnerEpubToZip',
+    'createBackupFromZip': 'spinnerCreateBackupFromZip',
+    'mergeBackup': 'spinnerMergeBackup',
+    'augmentBackupWithZip': 'spinnerAugmentBackup',
+    'findReplaceBackup': 'spinnerFindReplaceBackup',
+    'zipEpub': 'spinnerZipToEpub' // Combined tool uses ZIP to EPUB spinner
+};
+
 // Initialize a specific tool with lazy loading
 async function initializeTool(toolId) {
     if (initializedTools.has(toolId)) {
@@ -441,8 +453,8 @@ async function initializeTool(toolId) {
         // Initialize the tool with its specific function
         const initFunction = getToolInitializer(toolId);
         if (initFunction && module[initFunction]) {
-            const spinnerElement = document.getElementById(`spinner${toolId.charAt(0).toUpperCase() + toolId.slice(1)}`) ||
-                                 document.getElementById('spinner' + toolId.replace(/([A-Z])/g, '$1').charAt(0).toUpperCase() + toolId.slice(1));
+            const spinnerId = spinnerIdMap[toolId];
+            const spinnerElement = spinnerId ? document.getElementById(spinnerId) : null;
 
             module[initFunction](showToast, (show) => displaySpinnerElement(spinnerElement, show));
             // Re-apply Tailwind classes in case the tool created new inputs/buttons
@@ -802,6 +814,10 @@ export function initializeApp() {
     // Add intersection observer for lazy loading
     setupLazyLoading();
 
+    // Add touch gesture listeners for mobile navigation
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd, { passive: false });
 
     // Apply Tailwind utility classes to tools UI (no build, dynamic)
     applyTailwindClassesToTools();

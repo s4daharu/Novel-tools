@@ -423,6 +423,7 @@ export function initializeEpubToZip(showAppToast, toggleAppSpinner) {
         try {
             const arrayBuffer = await readFileAsArrayBuffer(file);
             updateLocalStatus('Unzipping EPUB...');
+            const JSZip = (await import('jszip')).default;
             currentZipInstance = await JSZip.loadAsync(arrayBuffer);
 
             updateLocalStatus('Parsing Table of Contents...');
