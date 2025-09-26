@@ -260,7 +260,7 @@
 
       <!-- Upload Section -->
       <div class="upload-section option-group">
-        <label for="epubUpload" class="btn upload-btn" id="epubUploadLabel">📖 Upload EPUB File</label>
+        <label for="epubUpload" class="btn upload-btn" id="epubUploadLabel">Upload EPUB File</label>
         <input type="file" id="epubUpload" accept=".epub" style="display:none;" aria-labelledby="epubUploadLabel">
         <div class="filename-display-area">
             <span id="epubFileName" class="text-slate-300"></span>
@@ -271,12 +271,12 @@
       <!-- Chapter Selection Area -->
       <div id="splitterChapterSelectionArea" class="mt-6 p-4 bg-slate-700/30 rounded-lg border border-slate-600/50" style="display:none;">
         <div class="flex items-center justify-between mb-4">
-          <h4 class="text-lg font-semibold text-slate-200">📋 Select Chapters to Split</h4>
+          <h4 class="text-lg font-semibold text-slate-200">Select Chapters to Split</h4>
           <div class="text-sm text-primary-400" id="chapterCount">0 chapters found</div>
         </div>
         <div class="mb-4 flex justify-center gap-3">
-          <button type="button" id="splitterSelectAllChapters" class="btn btn-accent btn-small">✅ Select All</button>
-          <button type="button" id="splitterDeselectAllChapters" class="btn btn-accent btn-small">❌ Deselect All</button>
+          <button type="button" id="splitterSelectAllChapters" class="btn btn-accent btn-small">Select All</button>
+          <button type="button" id="splitterDeselectAllChapters" class="btn btn-accent btn-small">Deselect All</button>
         </div>
         <ul id="splitterChapterList" class="chapter-selection-list text-sm text-slate-200 max-h-48 overflow-y-auto" aria-label="List of EPUB chapters for selection">
           <!-- Chapters will be populated here by JS -->
@@ -288,16 +288,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="option-group">
             <label for="modeSelect" class="flex items-center gap-2">
-              <span>⚙️</span> Output Mode:
+              Output Mode:
             </label>
             <select id="modeSelect" class="mt-2">
-              <option value="single">📄 Single Chapter per File</option>
-              <option value="grouped">📚 Grouped Chapters per File</option>
+              <option value="single">Single Chapter per File</option>
+              <option value="grouped">Grouped Chapters per File</option>
             </select>
           </div>
           <div class="option-group">
             <label for="chapterPattern" class="flex items-center gap-2">
-              <span>🏷️</span> Chapter Prefix:
+              Chapter Prefix:
               <span class="tooltip-trigger" aria-label="More info about Chapter Prefix" role="button" tabindex="0">(?)
                 <span class="tooltip-text-popup">Pattern for naming output files, e.g., 'C' will result in C01.txt, C02.txt. Click to dismiss.</span>
               </span>
@@ -306,13 +306,13 @@
           </div>
           <div class="option-group">
             <label for="startNumber" class="flex items-center gap-2">
-              <span>🔢</span> Start Number:
+              Start Number:
             </label>
             <input type="number" id="startNumber" min="1" value="1" aria-describedby="statusMessage">
           </div>
           <div class="option-group">
             <label for="offsetNumber" class="flex items-center gap-2">
-              <span>⏭️</span> Skip First (Offset):
+              Skip First (Offset):
             </label>
             <input type="number" id="offsetNumber" min="0" value="0" aria-describedby="statusMessage">
           </div>
@@ -321,7 +321,7 @@
         <!-- Group Size (shown when grouped mode selected) -->
         <div class="option-group mt-4 p-4 bg-slate-700/20 rounded-lg border border-slate-600/30" id="groupSizeGroup" style="display:none;">
           <label for="groupSize" class="flex items-center gap-2">
-            <span>📦</span> Chapters per File:
+            Chapters per File:
           </label>
           <input type="number" id="groupSize" min="1" value="4" aria-describedby="statusMessage">
           <p class="text-xs text-slate-400 mt-2">When using grouped mode, how many chapters to include in each output file</p>
@@ -331,7 +331,7 @@
       <!-- Action Buttons -->
       <div class="mt-8 flex justify-center gap-4">
         <button id="splitBtn" class="btn split-btn" disabled>
-          <span class="mr-2">✂️</span>Split EPUB
+          Split EPUB
         </button>
       </div>
 
@@ -342,9 +342,9 @@
       <!-- Download Section -->
       <div class="download-section mt-6 p-4 bg-green-600/10 border border-green-500/30 rounded-lg" style="display:none;">
         <div class="text-center">
-          <div class="text-green-400 text-lg mb-2">✅ EPUB Split Complete!</div>
+          <div class="text-green-400 text-lg mb-2">EPUB Split Complete!</div>
           <a id="downloadLink" class="btn download-btn inline-flex items-center gap-2">
-            <span>📥</span>Download Chapters ZIP
+            Download Chapters ZIP
           </a>
         </div>
       </div>
@@ -358,7 +358,7 @@
 
       <!-- Upload Section -->
       <div class="upload-section option-group mb-6">
-        <label for="mergeBackupFiles" class="btn upload-btn" id="mergeBackupFilesLabel">📁 Upload Backup Files</label>
+        <label for="mergeBackupFiles" class="btn upload-btn" id="mergeBackupFilesLabel">Upload Backup Files</label>
         <input type="file" id="mergeBackupFiles" accept=".json,.txt,.nov" multiple aria-labelledby="mergeBackupFilesLabel">
         <div class="filename-display-area" id="mergeBackupFileNamesArea" style="text-align: left; max-height: 120px; overflow-y: auto; background: var(--input-background); padding: 12px; border-radius: 8px; margin-top: 8px; border: 1px solid var(--border-color);">
               <div class="text-xs text-slate-400 mb-2">Selected files:</div>
@@ -373,19 +373,19 @@
         <!-- Project Information -->
         <div class="p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>📝</span>Project Information
+            Project Information
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="option-group">
               <label for="mergeProjectTitle" class="flex items-center gap-2">
-                <span>📚</span>Merged Project Title:
+                Merged Project Title:
               </label>
               <input type="text" id="mergeProjectTitle" placeholder="Enter merged project title" aria-describedby="statusMergeBackup">
             </div>
           </div>
           <div class="option-group mt-4">
             <label for="mergeDescription" class="flex items-center gap-2">
-              <span>📄</span>Merged Description:
+              Merged Description:
             </label>
             <textarea id="mergeDescription" placeholder="Enter merged project description" rows="3"></textarea>
           </div>
@@ -394,12 +394,12 @@
         <!-- Chapter Configuration -->
         <div class="p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>⚙️</span>Chapter Configuration
+            Chapter Configuration
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="option-group">
               <label for="mergePrefix" class="flex items-center gap-2">
-                <span>🏷️</span>Prefix for Chapters (Optional):
+                Prefix for Chapters (Optional):
               </label>
               <input type="text" id="mergePrefix" placeholder="e.g., Part I - ">
             </div>
@@ -417,7 +417,7 @@
         <!-- Merge Information -->
         <div class="p-4 bg-blue-600/10 rounded-lg border border-blue-500/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>ℹ️</span>Merge Information
+            Merge Information
           </h3>
           <ul class="text-xs text-slate-300 space-y-2">
             <li>• <strong>Status definitions:</strong> Merged from all files (duplicates removed, re-ranked)</li>
@@ -431,7 +431,7 @@
       <!-- Action Button -->
       <div class="mt-8 flex justify-center">
         <button id="mergeBackupBtn" class="btn btn-primary">
-          <span class="mr-2">🔗</span>Merge and Download
+          Merge and Download
         </button>
       </div>
 
@@ -442,7 +442,7 @@
       <!-- Workflow Tips -->
       <div class="mt-6 p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
         <h4 class="text-sm font-semibold text-slate-200 mb-2 flex items-center gap-2">
-          <span>💡</span>Workflow Tips
+          Workflow Tips
         </h4>
         <ul class="text-xs text-slate-300 space-y-1">
           <li>• Upload multiple backup files to combine into one</li>
@@ -462,7 +462,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Base Backup Upload -->
           <div class="option-group">
-            <label for="augmentBaseBackupFile" class="btn upload-btn" id="augmentBaseBackupFileLabel">📄 Base Backup File</label>
+            <label for="augmentBaseBackupFile" class="btn upload-btn" id="augmentBaseBackupFileLabel">Base Backup File</label>
             <input type="file" id="augmentBaseBackupFile" accept=".json,.txt,.nov" aria-labelledby="augmentBaseBackupFileLabel">
             <div class="filename-display-area">
                   <span id="augmentBaseBackupFileName" class="text-slate-300"></span>
@@ -473,7 +473,7 @@
 
           <!-- ZIP File Upload -->
           <div class="option-group">
-            <label for="augmentZipFile" class="btn upload-btn" id="augmentZipFileLabel">📦 ZIP with Chapters</label>
+            <label for="augmentZipFile" class="btn upload-btn" id="augmentZipFileLabel">ZIP with Chapters</label>
             <input type="file" id="augmentZipFile" accept=".zip" aria-labelledby="augmentZipFileLabel">
             <div class="filename-display-area">
                   <span id="augmentZipFileName" class="text-slate-300"></span>
@@ -489,12 +489,12 @@
         <!-- Chapter Configuration -->
         <div class="p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>⚙️</span>Chapter Configuration
+            Chapter Configuration
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="option-group">
               <label for="augmentPrefix" class="flex items-center gap-2">
-                <span>🏷️</span>Prefix for New Chapters:
+                Prefix for New Chapters:
               </label>
               <input type="text" id="augmentPrefix" placeholder="e.g., New Section - ">
             </div>
@@ -514,7 +514,7 @@
         <!-- Augmentation Information -->
         <div class="p-4 bg-green-600/10 rounded-lg border border-green-500/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>📈</span>Augmentation Information
+            Augmentation Information
           </h3>
           <ul class="text-xs text-slate-300 space-y-2">
             <li>• <strong>Preserves existing content:</strong> Your original backup remains unchanged</li>
@@ -528,7 +528,7 @@
       <!-- Action Button -->
       <div class="mt-8 flex justify-center">
         <button id="augmentBackupBtn" class="btn btn-primary" disabled>
-          <span class="mr-2">🔧</span>Augment and Download
+          Augment and Download
         </button>
       </div>
 
@@ -539,7 +539,7 @@
       <!-- Workflow Tips -->
       <div class="mt-6 p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
         <h4 class="text-sm font-semibold text-slate-200 mb-2 flex items-center gap-2">
-          <span>💡</span>Workflow Tips
+          Workflow Tips
         </h4>
         <ul class="text-xs text-slate-300 space-y-1">
           <li>• Upload your existing backup file first, then the ZIP with new chapters</li>
@@ -557,7 +557,7 @@
 
       <!-- Upload Section -->
       <div class="upload-section option-group mb-6">
-        <label for="frBackupFile" class="btn upload-btn" id="frBackupFileLabel">📄 Upload Backup File</label>
+        <label for="frBackupFile" class="btn upload-btn" id="frBackupFileLabel">Upload Backup File</label>
         <input type="file" id="frBackupFile" accept=".json,.txt,.nov" aria-labelledby="frBackupFileLabel">
         <div class="filename-display-area">
               <span id="frBackupFileName" class="text-slate-300"></span>
@@ -571,18 +571,18 @@
         <!-- Search Configuration -->
         <div class="p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>🔍</span>Search Configuration
+            Search Configuration
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="option-group">
               <label for="findPattern" class="flex items-center gap-2">
-                <span>🔎</span>Find Pattern:
+                Find Pattern:
               </label>
               <textarea id="findPattern" placeholder="Enter search term or regex pattern" rows="3" class="mt-2"></textarea>
             </div>
             <div class="option-group">
               <label for="replaceText" class="flex items-center gap-2">
-                <span>🔄</span>Replacement Text:
+                Replacement Text:
               </label>
               <textarea id="replaceText" placeholder="Enter replacement text" rows="3" class="mt-2"></textarea>
             </div>
@@ -603,7 +603,7 @@
               </label>
             </div>
             <p class="text-xs text-slate-400 mt-2">
-              💡 <strong>Tip:</strong> Use regex for advanced patterns like finding specific formatting or multiple variations
+              <strong>Tip:</strong> Use regex for advanced patterns like finding specific formatting or multiple variations
             </p>
           </div>
         </div>
@@ -611,29 +611,29 @@
         <!-- Action Buttons -->
         <div class="p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>⚡</span>Actions
+            Actions
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="flex gap-2">
               <button id="findPreviousBtn" class="btn btn-primary fr-btn flex-1">
-                <span class="mr-1">↑</span>Find Previous
+                Find Previous
               </button>
               <button id="findNextBtn" class="btn btn-primary fr-btn flex-1">
-                Find Next<span class="ml-1">↓</span>
+                Find Next
               </button>
             </div>
             <div class="flex gap-2">
               <button id="replaceNextBtn" class="btn btn-accent fr-btn flex-1">
-                <span class="mr-1">🔄</span>Replace This
+                Replace This
               </button>
               <button id="downloadCurrentFrBackupBtn" class="btn btn-accent fr-btn flex-1" disabled>
-                <span class="mr-1">💾</span>Download Backup
+                Download Backup
               </button>
             </div>
           </div>
           <div class="mt-3">
             <button id="replaceAllBtn" class="btn btn-accent fr-btn w-full">
-              <span class="mr-2">🎨</span>Replace All & Download
+              Replace All & Download
             </button>
           </div>
         </div>
@@ -641,7 +641,7 @@
         <!-- Match Information -->
         <div class="p-4 bg-blue-600/10 rounded-lg border border-blue-500/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>📊</span>Match Information
+            Match Information
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-slate-700/30 p-3 rounded-lg">
@@ -661,7 +661,7 @@
         <!-- Match Preview -->
         <div class="p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
           <h3 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <span>👁️</span>Match Preview
+            Match Preview
           </h3>
           <div id="currentMatchDisplay" class="fr-match-preview bg-slate-700/50 p-4 rounded-lg text-slate-300" aria-live="polite">
             No match found yet. Use "Find Next" to start searching.
@@ -676,7 +676,7 @@
       <!-- Workflow Tips -->
       <div class="mt-6 p-4 bg-slate-700/20 rounded-lg border border-slate-600/30">
         <h4 class="text-sm font-semibold text-slate-200 mb-2 flex items-center gap-2">
-          <span>💡</span>Workflow Tips
+          Workflow Tips
         </h4>
         <ul class="text-xs text-slate-300 space-y-1">
           <li>• Upload your backup file and configure your search pattern</li>
