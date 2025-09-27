@@ -802,8 +802,11 @@
       </div>
 
       <div id="zipToEpubChapterArea" class="option-group" style="display:none;">
-          <label>Chapters Found:</label>
-          <ul id="zipToEpubChapterList" class="chapter-list-static" aria-label="List of chapters found in the ZIP">
+          <label>Chapter Order and Titles:</label>
+          <p style="font-size: 0.8em; color: var(--secondary-text-color); text-align: center; margin-top: -5px;">
+              Drag to reorder. Click a title to edit it.
+          </p>
+          <ul id="zipToEpubChapterList" class="chapter-list-draggable" aria-label="List of chapters to include in the EPUB">
               <!-- Dynamically populated by JS -->
           </ul>
       </div>
@@ -827,6 +830,23 @@
             </div>
         </div>
         
+        <details class="advanced-options-accordion">
+            <summary>Advanced Options</summary>
+            <div class="accordion-content">
+                <div class="option-group">
+                  <label for="epubLanguage">Language Code:</label>
+                  <input type="text" id="epubLanguage" placeholder="e.g., en" value="en" aria-describedby="statusMessageZipToEpub">
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label-wrapper" for="processMarkdown">
+                        <input type="checkbox" id="processMarkdown" /> Process chapter text as Markdown
+                    </label>
+                     <p style="font-size: 0.8em; color: var(--secondary-text-color); text-align: center; margin-top: -5px;">
+                        Supports headings (#), bold (**text**), and italic (*text*).
+                    </p>
+                </div>
+            </div>
+        </details>
       </div>
       <button id="createEpubBtn" class="btn split-btn" disabled>Create EPUB</button>
       <div id="spinnerZipToEpub" class="spinner" role="status" aria-live="polite" aria-label="Loading"></div>
