@@ -70,25 +70,32 @@ function textToXHTML(text, chapterTitle, useMarkdown, language) {
     const bodyContent = `<h2>${escapeHTML(chapterTitle)}</h2>\n`;
     let chapterBody = '';
 
-    // Split by single newlines to treat each line as a separate paragraph
-    const lines = text.replace(/\r\n/g, '\n').split(/\n/);
+    // Normalize line endings and split into paragraphs based on blank lines.
+    const paragraphs = text.replace(/\r\n/g, '\n').split(/\n\n+/);
 
-    lines.forEach(line => {
-        const trimmedLine = line.trim();
-        if (trimmedLine) {
+    paragraphs.forEach(paragraph => {
+        const trimmedParagraph = paragraph.trim();
+        if (trimmedParagraph) {
+            // Further split into lines to handle headings and single lines within a paragraph block.
+            const lines = trimmedParagraph.split('\n');
             let paragraphHtml = '';
+
             if (useMarkdown) {
-                const headingMatch = trimmedLine.match(/^(#{1,6})\s+(.*)/);
-                if (headingMatch) {
+                // Handle multi-line blocks that should become single paragraphs
+                const headingMatch = lines[0].match(/^(#{1,6})\s+(.*)/);
+                if (headingMatch && lines.length === 1) {
                     const level = headingMatch[1].length;
                     const content = headingMatch[2];
                     paragraphHtml = `<h${level}>${escapeAndProcessInlines(content)}</h${level}>\n`;
                 } else {
-                    paragraphHtml = `    <p>${escapeAndProcessInlines(trimmedLine)}</p>\n`;
+                    // All lines in this block are part of one paragraph
+                    const paragraphContent = lines.map(line => escapeAndProcessInlines(line.trim())).join('<br/>\n');
+                    paragraphHtml = `    <p>${paragraphContent}</p>\n`;
                 }
             } else {
-                // No markdown, just escape HTML - each line is its own paragraph
-                paragraphHtml = `    <p>${escapeHTML(trimmedLine)}</p>\n`;
+                // Join lines with line breaks if they were not separated by a blank line.
+                const paragraphContent = lines.map(line => escapeHTML(line.trim())).join('<br/>\n');
+                paragraphHtml = `    <p>${paragraphContent}</p>\n`;
             }
             chapterBody += paragraphHtml;
         }
